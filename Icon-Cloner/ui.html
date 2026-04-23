@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cloner 2.0</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;--panel:#191919;--card:#222;--border:#2e2e2e;
+  --accent:#6c63ff;--accent2:#4ade80;--text:#e8e8e8;--sub:#777;
+  --red:#f87171;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── Header ── */
+.hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.hdr-logo{width:28px;height:28px;background:linear-gradient(135deg,#6c63ff,#a78bfa);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.hdr-title{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.hdr-badge{font-size:10px;background:#6c63ff22;color:#a78bfa;border:1px solid #6c63ff44;border-radius:20px;padding:2px 8px;font-weight:600}
+.hdr-close{margin-left:auto;background:none;border:none;color:var(--sub);cursor:pointer;font-size:16px;line-height:1;padding:4px}
+.hdr-close:hover{color:var(--text)}
+
+/* ── Main layout ── */
+.main{display:flex;flex:1;overflow:hidden}
+
+/* ── Left panel ── */
+.left{width:200px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.panel-sec{padding:12px}
+.panel-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.panel-label .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* Reference upload */
+.ref-drop{border:1.5px dashed var(--border);border-radius:10px;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.ref-drop:hover{border-color:var(--accent);background:#6c63ff09}
+.ref-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.ref-drop .ref-icon{font-size:24px;opacity:.4}
+.ref-drop .ref-hint{font-size:11px;color:var(--sub);text-align:center;padding:0 10px}
+.ref-preview{width:100%;height:100%;object-fit:contain;border-radius:8px;display:block}
+.ref-clear{position:absolute;top:6px;right:6px;background:#0009;border:none;color:#fff;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:none;align-items:center;justify-content:center}
+.ref-drop:hover .ref-clear{display:flex}
+
+/* HiFi toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--card);border-radius:8px;margin:0 12px 12px}
+.toggle-info .tl{font-size:12px;font-weight:600;color:#a78bfa}
+.toggle-info .ts{font-size:10px;color:var(--sub);margin-top:1px}
+.toggle{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#333;border-radius:20px;cursor:pointer;transition:.2s}
+.slider:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+input:checked+.slider{background:var(--accent)}
+input:checked+.slider:before{transform:translateX(16px)}
+
+/* AI Settings */
+.ai-sec{padding:12px;border-top:1px solid var(--border)}
+.field{margin-bottom:8px}
+.field label{display:block;font-size:10px;color:var(--sub);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.field select,.field input{width:100%;padding:7px 9px;background:#1e1e1e;border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:12px;outline:none;font-family:inherit}
+.field select:focus,.field input:focus{border-color:var(--accent)}
+.hint{font-size:10px;color:var(--sub);margin-top:3px}
+.key-wrap{position:relative}
+.key-wrap input{padding-right:32px}
+.key-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--sub);cursor:pointer;font-size:13px;padding:0}
+
+/* ── Auto-mode status card ── */
+.auto-status{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid #4ade8033;border-radius:9px;padding:9px 10px;margin-bottom:8px;transition:.2s}
+.auto-status.keyed{border-color:#6c63ff55}
+.auto-icon{font-size:18px;flex-shrink:0;line-height:1}
+.auto-info .auto-name{font-size:12px;font-weight:700;color:#4ade80;transition:.2s}
+.auto-info .auto-name.keyed{color:#a78bfa}
+.auto-info .auto-sub{font-size:10px;color:var(--sub);margin-top:1px}
+/* ── Advanced toggle ── */
+.adv-toggle{font-size:10px;color:#6c63ff99;cursor:pointer;padding:5px 0 4px;margin-bottom:0;display:flex;align-items:center;gap:4px;user-select:none;transition:.15s;border-top:1px solid var(--border);margin-top:4px}
+.adv-toggle:hover{color:#a78bfa}
+.adv-toggle.open{color:#a78bfa}
+.adv-caret{display:inline-block;transition:transform .2s;font-style:normal}
+.adv-toggle.open .adv-caret{transform:rotate(90deg)}
+.adv-panel{padding-top:8px;border-top:1px solid var(--border);margin-top:6px}
+
+/* ── Right panel ── */
+.right{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.targets-hdr{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);gap:8px;flex-shrink:0}
+.targets-hdr span{font-size:12px;font-weight:700;flex:1}
+.targets-hdr .count{font-size:11px;color:var(--sub);background:var(--card);border-radius:12px;padding:2px 8px}
+.add-btn{display:inline-flex;align-items:center;gap:5px;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;white-space:nowrap}
+.add-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.add-btn:hover{background:#5a52e0}
+
+/* Icons grid */
+.icons-grid{flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:start;transition:.15s;border-radius:0 0 0 0}
+.icons-grid.drag-over{background:#6c63ff0d;outline:2px dashed #6c63ff;outline-offset:-8px}
+.icon-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;position:relative;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.icon-card.done{border-color:var(--accent2)}
+.icon-card.error{border-color:var(--red)}
+.icon-card.working{border-color:var(--accent);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{border-color:#6c63ff44}50%{border-color:#6c63ff}}
+.icon-preview{width:60%;height:60%;object-fit:contain;display:block}
+.icon-preview svg{width:100%;height:100%}
+.icon-name{position:absolute;bottom:0;left:0;right:0;padding:4px 6px;font-size:9px;color:var(--sub);background:linear-gradient(transparent,#1a1a1aee);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Remove button — always visible, top-right */
+.icon-remove{position:absolute;top:5px;right:5px;background:#f871714d;border:1px solid #f8717166;color:#f87171;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.15s;line-height:1;z-index:2}
+.icon-remove:hover{background:#f87171;color:#fff}
+.icon-badge{position:absolute;top:5px;left:5px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
+.icon-badge.styled{background:#4ade8022;color:#4ade80;border:1px solid #4ade8044}
+.icon-badge.working{background:#6c63ff22;color:#a78bfa}
+.icon-badge.error{background:#f8717122;color:#f87171}
+.icon-spinner{width:18px;height:18px;border:2px solid #6c63ff33;border-top-color:#6c63ff;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty-state{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px 20px;color:var(--sub);text-align:center}
+.empty-state .ei{font-size:36px;opacity:.3}
+.empty-state p{font-size:12px;line-height:1.5}
+.empty-state .drop-hint{font-size:11px;color:#6c63ff99;margin-top:4px}
+
+/* ── Footer ── */
+.footer{border-top:1px solid var(--border);padding:12px 14px;display:flex;gap:8px;flex-shrink:0;align-items:center}
+.transform-btn{flex:1;padding:11px;background:linear-gradient(135deg,#6c63ff,#8b5cf6);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.transform-btn:disabled{opacity:.35;cursor:not-allowed}
+.transform-btn:hover:not(:disabled){background:linear-gradient(135deg,#5a52e0,#7c3aed)}
+.export-group{display:none;align-items:center;gap:6px;flex-shrink:0}
+.export-group.show{display:flex}
+.fmt-select{padding:9px 8px;background:#1a1a1a;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:12px;font-weight:600;cursor:pointer;outline:none;height:42px}
+.fmt-select:focus{border-color:var(--accent)}
+.export-btn{padding:11px 14px;background:var(--accent2);color:#000;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.2s;white-space:nowrap;height:42px}
+.export-btn:hover{background:#22c55e}
+.spin-sm{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+/* SVG preview bg — makes dark SVGs visible on dark card */
+.svg-preview-wrap{width:65%;height:65%;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;background:#ffffff0d;border-radius:6px;padding:4px}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="hdr">
+  <div class="hdr-logo">✦</div>
+  <span class="hdr-title">Cloner</span>
+  <span class="hdr-badge">2.0</span>
+  <span style="font-size:10px;background:#4ade8022;color:#4ade80;border:1px solid #4ade8044;border-radius:20px;padding:2px 8px;font-weight:600;">FREE</span>
+  <button class="hdr-close" onclick="send('close')">✕</button>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Left Panel -->
+  <div class="left">
+    <div class="panel-sec">
+      <div class="panel-label"><span class="dot"></span>Reference Style</div>
+      <label class="ref-drop" id="ref-drop">
+        <input type="file" id="ref-input" accept=".svg,.png,.jpg,.jpeg,.webp" onchange="onRefFile(this)">
+        <div class="ref-icon" id="ref-icon">🎨</div>
+        <div class="ref-hint" id="ref-hint">Upload reference<br>SVG or image</div>
+        <img class="ref-preview" id="ref-preview" style="display:none" />
+        <button class="ref-clear" id="ref-clear" onclick="clearRef(event)">✕</button>
+      </label>
+      <!-- Style description: shown for Pollinations when ref is not SVG -->
+      <div id="style-desc-wrap" style="display:none;margin-top:8px;">
+        <div style="font-size:10px;color:#a78bfa;margin-bottom:4px;">✏️ Describe the style (for AI)</div>
+        <textarea id="style-desc" rows="2" placeholder="e.g. golden metallic 3D chips, glossy, warm tones, beveled edges" style="width:100%;background:#1e1e1e;border:1px solid #3a3a3a;border-radius:7px;color:#e8e8e8;font-size:11px;padding:7px;resize:none;font-family:inherit;outline:none;line-height:1.4"></textarea>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="tl">⚡ High-Fidelity</div>
+        <div class="ts">95% style match</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="hifi" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="ai-sec">
+      <div class="panel-label"><span class="dot" style="background:#a78bfa"></span>AI Engine</div>
+
+      <!-- Auto-mode status card -->
+      <div class="auto-status" id="auto-status">
+        <div class="auto-icon" id="auto-icon">🆓</div>
+        <div class="auto-info">
+          <div class="auto-name" id="auto-name">Pollinations.ai</div>
+          <div class="auto-sub" id="auto-sub">Free · No key needed</div>
+        </div>
+      </div>
+
+      <!-- Advanced toggle -->
+      <div class="adv-toggle" id="adv-toggle" onclick="toggleAdvanced()">
+        <i class="adv-caret">▶</i> Use your own API key
+      </div>
+
+      <!-- Advanced panel (hidden by default) -->
+      <div class="adv-panel" id="adv-panel" style="display:none">
+        <div class="field">
+          <label>Provider</label>
+          <select id="provider" onchange="onProviderChange()">
+            <option value="gemini">✦ Gemini (free key at aistudio)</option>
+            <option value="pollinations">🆓 Pollinations — no key</option>
+            <option value="openrouter">🔗 OpenRouter</option>
+            <option value="ollama">🏠 Ollama — local</option>
+            <option value="claude">Claude API</option>
+            <option value="openai">OpenAI API</option>
+            <option value="github">🐙 GitHub Models</option>
+          </select>
+        </div>
+        <div class="field" id="key-field">
+          <label id="key-label">API Key</label>
+          <div class="key-wrap">
+            <input type="password" id="api-key" placeholder="" autocomplete="off" oninput="onKeyInput()">
+            <button class="key-eye" onclick="toggleKeyVis()">👁</button>
+          </div>
+          <div class="hint" id="key-hint"></div>
+        </div>
+        <div class="field">
+          <label>Model</label>
+          <select id="model"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right">
+    <div class="targets-hdr">
+      <span>Target Icons</span>
+      <span class="count" id="count">0</span>
+      <label class="add-btn">
+        + Add Icons
+        <input type="file" id="targets-input" accept=".svg,.png,.jpg,.jpeg,.webp" multiple onchange="onTargetFiles(this)">
+      </label>
+    </div>
+    <div class="icons-grid" id="icons-grid">
+      <div class="empty-state">
+        <div class="ei">🖼</div>
+        <p>Upload SVG or PNG icons<br>you want to style-transfer</p>
+        <div class="drop-hint">⬆ or drag & drop files here</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <button class="transform-btn" id="transform-btn" disabled onclick="run()">
+    ⚡ Transform Icons
+  </button>
+  <div class="export-group" id="export-group">
+    <select class="fmt-select" id="export-fmt" onchange="onFmtChange()" title="Export format">
+      <option value="figma">⬡ Figma</option>
+      <option value="svg">SVG</option>
+      <option value="png">PNG</option>
+      <option value="jpeg">JPEG</option>
+    </select>
+    <button class="export-btn" id="export-btn" onclick="onExport()">
+      ↓ Place in Figma
+    </button>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+var state = {
+  ref: null,       // { base64, mime, svg, url }
+  targets: [],     // [{ id, name, srcSvg, srcBase64, srcMime, previewUrl, status, resultSvg, error }]
+  running: false
+};
+var nextId = 0;
+
+// ── Providers ──────────────────────────────────────────────────────────────────
+var PROVIDERS = {
+  pollinations:{ needsKey:false, label:'',               ph:'',           hint:'🆓 Powered by <a href="https://pollinations.ai" target="_blank" style="color:#4ade80">Pollinations.ai</a> — free, no registration needed', models:['openai','claude','mistral'] },
+  gemini:     { needsKey:true,  label:'Gemini API Key',  ph:'AIza...',    hint:'Free key: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#a78bfa">aistudio.google.com</a>', models:['gemini-2.0-flash','gemini-2.0-flash-exp','gemini-1.5-flash','gemini-1.5-pro'] },
+  openrouter: { needsKey:true,  label:'OpenRouter Key',  ph:'sk-or-...',  hint:'Free models at <a href="https://openrouter.ai" target="_blank" style="color:#a78bfa">openrouter.ai</a>', models:['google/gemini-2.0-flash-exp:free','meta-llama/llama-3.2-11b-vision-instruct:free','qwen/qwen2-vl-7b-instruct:free'] },
+  ollama:     { needsKey:false, label:'',                ph:'',           hint:'Run: <b>OLLAMA_ORIGINS=* ollama serve</b>', models:['llava','llava-llama3','llama3.2-vision'] },
+  claude:     { needsKey:true,  label:'Claude API Key',  ph:'sk-ant-...', hint:'<a href="https://console.anthropic.com" target="_blank" style="color:#a78bfa">console.anthropic.com</a>', models:['claude-opus-4-5','claude-sonnet-4-5','claude-haiku-4-5'] },
+  openai:     { needsKey:true,  label:'OpenAI API Key',  ph:'sk-...',     hint:'<a href="https://platform.openai.com/api-keys" target="_blank" style="color:#a78bfa">platform.openai.com</a>', models:['gpt-4o','gpt-4o-mini'] },
+  github:     { needsKey:true,  label:'GitHub Token',    ph:'ghp_...',    hint:'<a href="https://github.com/settings/tokens" target="_blank" style="color:#a78bfa">github.com/settings/tokens</a>', models:['gpt-4o','Llama-3.2-11B-Vision-Instruct','gpt-4o-mini'] }
+};
+
+// ── Advanced panel toggle ──────────────────────────────────────────────────────
+function toggleAdvanced() {
+  var panel = document.getElementById('adv-panel');
+  var toggle = document.getElementById('adv-toggle');
+  var open = panel.style.display === 'none';
+  panel.style.display = open ? 'block' : 'none';
+  toggle.className = 'adv-toggle' + (open ? ' open' : '');
+  updateAutoStatus();
+  validate();
+}
+
+// Returns the provider that will actually be used
+function getActiveProvider() {
+  var panel = document.getElementById('adv-panel');
+  if (panel.style.display === 'none') return 'pollinations'; // auto mode
+  var pv = document.getElementById('provider').value;
+  var p = PROVIDERS[pv];
+  if (!p.needsKey) return pv; // ollama, pollinations — no key needed
+  var key = document.getElementById('api-key').value.trim();
+  return key.length > 5 ? pv : 'pollinations'; // fall back to free if no key
+}
+
+function getActiveKey() {
+  return document.getElementById('api-key').value.trim().replace(/[^\x20-\x7E]/g,'');
+}
+
+function getActiveModel() {
+  return document.getElementById('model').value;
+}
+
+// Updates the status card to reflect current active provider
+function updateAutoStatus() {
+  var pv = getActiveProvider();
+  var nameEl = document.getElementById('auto-name');
+  var subEl  = document.getElementById('auto-sub');
+  var iconEl = document.getElementById('auto-icon');
+  var card   = document.getElementById('auto-status');
+  var nameKeyed = nameEl.classList;
+
+  if (pv === 'pollinations') {
+    iconEl.textContent = '🆓';
+    nameEl.textContent = 'Pollinations.ai';
+    nameEl.className = 'auto-name';
+    subEl.textContent = 'Free · No key needed';
+    card.className = 'auto-status';
+  } else {
+    var model = getActiveModel();
+    var icons = { gemini:'✦', openrouter:'🔗', ollama:'🏠', claude:'◆', openai:'⬡', github:'🐙' };
+    var labels = { gemini:'Gemini', openrouter:'OpenRouter', ollama:'Ollama', claude:'Claude', openai:'OpenAI', github:'GitHub Models' };
+    iconEl.textContent = icons[pv] || '🔑';
+    nameEl.textContent = labels[pv] || pv;
+    nameEl.className = 'auto-name keyed';
+    subEl.textContent = model || pv;
+    card.className = 'auto-status keyed';
+  }
+}
+
+function onProviderChange() {
+  var pv = document.getElementById('provider').value;
+  var p = PROVIDERS[pv];
+  var kf = document.getElementById('key-field');
+  kf.style.display = p.needsKey ? 'block' : 'none';
+  if (p.needsKey) {
+    document.getElementById('key-label').textContent = p.label;
+    document.getElementById('api-key').placeholder = p.ph;
+    try { document.getElementById('api-key').value = localStorage.getItem('k_'+pv) || ''; } catch(e) {}
+  }
+  document.getElementById('key-hint').innerHTML = p.hint;
+  var ms = document.getElementById('model');
+  ms.innerHTML = '';
+  p.models.forEach(function(m){ var o=document.createElement('option'); o.value=m; o.textContent=m; ms.appendChild(o); });
+  updateAutoStatus();
+  updateStyleDescVisibility();
+  validate();
+}
+
+function updateStyleDescVisibility() {
+  var pv = getActiveProvider();
+  var isPoll = pv === 'pollinations';
+  var refIsImage = state.ref && !state.ref.svg; // PNG/JPG reference
+  document.getElementById('style-desc-wrap').style.display = (isPoll && refIsImage) ? 'block' : 'none';
+}
+
+function onKeyInput() {
+  var pv = document.getElementById('provider').value;
+  try { localStorage.setItem('k_'+pv, document.getElementById('api-key').value.trim()); } catch(e) {}
+  updateAutoStatus();
+  validate();
+}
+
+function toggleKeyVis() {
+  var el = document.getElementById('api-key');
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+// ── Init: auto-detect saved keys ───────────────────────────────────────────────
+(function initProvider() {
+  // Check if user has any saved keys — if so, open advanced and pre-select best provider
+  var providerOrder = ['gemini','openai','claude','openrouter','github'];
+  var foundProvider = null;
+  var foundKey = null;
+  for (var i = 0; i < providerOrder.length; i++) {
+    try {
+      var k = localStorage.getItem('k_' + providerOrder[i]);
+      if (k && k.length > 5) { foundProvider = providerOrder[i]; foundKey = k; break; }
+    } catch(e) {}
+  }
+  if (foundProvider) {
+    // Pre-open advanced panel with saved provider
+    var panel = document.getElementById('adv-panel');
+    var toggle = document.getElementById('adv-toggle');
+    panel.style.display = 'block';
+    toggle.className = 'adv-toggle open';
+    document.getElementById('provider').value = foundProvider;
+  }
+  onProviderChange();
+  updateAutoStatus();
+})();
+
+// ── Reference Icon ─────────────────────────────────────────────────────────────
+function onRefFile(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
+  if (isSvg) {
+    var r = new FileReader();
+    r.onload = function(e) {
+      state.ref = { svg: e.target.result, base64: null, mime: 'image/svg+xml', url: URL.createObjectURL(file) };
+      showRef(state.ref.url);
+    };
+    r.readAsText(file);
+  } else {
+    var r2 = new FileReader();
+    r2.onload = function(e) {
+      var du = e.target.result;
+      state.ref = { svg: null, base64: du.split(',')[1], mime: file.type||'image/png', url: du };
+      showRef(du);
+    };
+    r2.readAsDataURL(file);
+  }
+}
+
+function showRef(src) {
+  document.getElementById('ref-icon').style.display = 'none';
+  document.getElementById('ref-hint').style.display = 'none';
+  var img = document.getElementById('ref-preview');
+  img.src = src; img.style.display = 'block';
+  document.getElementById('ref-drop').style.borderStyle = 'solid';
+  document.getElementById('ref-drop').style.borderColor = '#6c63ff';
+  updateStyleDescVisibility();
+  validate();
+}
+
+function clearRef(e) {
+  e.preventDefault(); e.stopPropagation();
+  state.ref = null;
+  document.getElementById('ref-icon').style.display = '';
+  document.getElementById('ref-hint').style.display = '';
+  var img = document.getElementById('ref-preview');
+  img.src = ''; img.style.display = 'none';
+  document.getElementById('ref-input').value = '';
+  document.getElementById('ref-drop').style.borderStyle = 'dashed';
+  document.getElementById('ref-drop').style.borderColor = '';
+  validate();
+}
+
+// ── Target Icons ───────────────────────────────────────────────────────────────
+function onTargetFiles(input) {
+  var files = Array.prototype.slice.call(input.files);
+  var promises = files.map(function(file) { return readTargetFile(file); });
+  Promise.all(promises).then(function(items) {
+    items.forEach(function(item) { if(item) state.targets.push(item); });
+    renderGrid();
+    validate();
+    input.value = '';
+  });
+}
+
+function readTargetFile(file) {
+  return new Promise(function(resolve) {
+    var isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
+    var id = ++nextId;
+    if (isSvg) {
+      var r = new FileReader();
+      r.onload = function(e) {
+        resolve({ id:id, name:file.name.replace(/\.[^.]+$/,''), srcSvg:e.target.result, srcBase64:null, srcMime:'image/svg+xml', previewUrl:URL.createObjectURL(file), status:'pending', resultSvg:null, error:null });
+      };
+      r.readAsText(file);
+    } else {
+      var r2 = new FileReader();
+      r2.onload = function(e) {
+        var du = e.target.result;
+        resolve({ id:id, name:file.name.replace(/\.[^.]+$/,''), srcSvg:null, srcBase64:du.split(',')[1], srcMime:file.type||'image/png', previewUrl:du, status:'pending', resultSvg:null, error:null });
+      };
+      r2.readAsDataURL(file);
+    }
+  });
+}
+
+function removeTarget(id) {
+  state.targets = state.targets.filter(function(t){ return t.id !== id; });
+  renderGrid();
+  validate();
+}
+
+function renderGrid() {
+  var grid = document.getElementById('icons-grid');
+  document.getElementById('count').textContent = state.targets.length;
+  if (!state.targets.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="ei">🖼</div><p>Upload SVG or PNG icons<br>you want to style-transfer</p><div class="drop-hint">⬆ or drag & drop files here</div></div>';
+    return;
+  }
+  grid.innerHTML = '';
+  state.targets.forEach(function(t) {
+    var card = document.createElement('div');
+    card.className = 'icon-card' + (t.status==='done'?' done':t.status==='error'?' error':t.status==='working'?' working':'');
+    card.id = 'card-'+t.id;
+
+    // ── Content area ──
+    if (t.status === 'working') {
+      // Spinner
+      var spin = document.createElement('div');
+      spin.innerHTML = '<div class="icon-spinner"></div><div style="font-size:10px;color:#a78bfa;margin-top:4px">Styling…</div>';
+      spin.style.cssText = 'display:flex;flex-direction:column;align-items:center';
+      card.appendChild(spin);
+
+    } else if (t.status === 'done' && t.resultSvg) {
+      // ✅ Inline SVG — most reliable rendering in Figma iframe
+      var wrap = document.createElement('div');
+      wrap.className = 'svg-preview-wrap';
+      wrap.innerHTML = t.resultSvg;
+      var svgEl = wrap.querySelector('svg');
+      if (svgEl) {
+        svgEl.setAttribute('width', '100%');
+        svgEl.setAttribute('height', '100%');
+        svgEl.removeAttribute('style');
+        svgEl.style.cssText = 'width:100%;height:100%;max-width:100%;max-height:100%;display:block';
+      }
+      card.appendChild(wrap);
+
+    } else {
+      // Original file preview
+      var img = document.createElement('img');
+      img.className = 'icon-preview';
+      img.src = t.previewUrl || '';
+      img.onerror = function() { this.style.opacity = '0.3'; };
+      card.appendChild(img);
+    }
+
+    // ── Badge ──
+    if (t.status === 'done') {
+      var b = document.createElement('div'); b.className='icon-badge styled'; b.textContent='STYLED'; card.appendChild(b);
+    } else if (t.status === 'error') {
+      var b2 = document.createElement('div'); b2.className='icon-badge error'; b2.textContent='ERROR'; card.appendChild(b2);
+      var errDiv = document.createElement('div');
+      errDiv.style.cssText = 'position:absolute;bottom:22px;left:0;right:0;font-size:9px;color:#f87171;padding:3px 6px;line-height:1.3;word-break:break-word;background:#000a;text-align:center';
+      errDiv.textContent = (t.error || 'Unknown error').slice(0, 90);
+      card.appendChild(errDiv);
+    } else if (t.status === 'working') {
+      var b3 = document.createElement('div'); b3.className='icon-badge working'; b3.textContent='AI…'; card.appendChild(b3);
+    }
+
+    // ── Name ──
+    var nm = document.createElement('div'); nm.className = 'icon-name'; nm.textContent = t.name; card.appendChild(nm);
+
+    // ── Remove button ──
+    if (!state.running) {
+      var rm = document.createElement('button');
+      rm.className = 'icon-remove'; rm.textContent = '✕'; rm.title = 'Remove';
+      rm.onclick = (function(id){ return function(e){ e.stopPropagation(); removeTarget(id); }; })(t.id);
+      card.appendChild(rm);
+    }
+
+    grid.appendChild(card);
+  });
+
+  // Show/hide export group
+  var doneCount = state.targets.filter(function(t){ return t.status==='done' && t.resultSvg; }).length;
+  document.getElementById('export-group').className = doneCount > 0 ? 'export-group show' : 'export-group';
+}
+
+// ── Validate ───────────────────────────────────────────────────────────────────
+function validate() {
+  // In auto mode (advanced closed or no key entered) we fall back to Pollinations — always valid
+  var hasRef = !!state.ref;
+  var hasTargets = state.targets.length > 0;
+  var ok = hasRef && hasTargets && !state.running;
+  document.getElementById('transform-btn').disabled = !ok;
+}
+
+// ── Transform ──────────────────────────────────────────────────────────────────
+async function run() {
+  if (state.running) return;
+  state.running = true;
+  validate();
+  var btn = document.getElementById('transform-btn');
+  var pvLabel = { pollinations:'Pollinations', gemini:'Gemini', claude:'Claude', openai:'OpenAI', openrouter:'OpenRouter', github:'GitHub', ollama:'Ollama' };
+  btn.innerHTML = '<span class="spin-sm"></span> ' + (pvLabel[getActiveProvider()] || 'AI') + ' is working…';
+
+  var key = getActiveKey();
+  var model = getActiveModel();
+  var hifi = document.getElementById('hifi').checked;
+
+  var pv = getActiveProvider();
+  // Gemini free tier: ~15 req/min → wait 5s between icons
+  var betweenDelay = (pv === 'gemini') ? 5000 : 1000;
+
+  for (var i = 0; i < state.targets.length; i++) {
+    var t = state.targets[i];
+    if (t.status === 'done') continue;
+
+    // Delay between icons (except first)
+    if (i > 0) {
+      t.status = 'working';
+      t.error = 'Waiting ' + (betweenDelay/1000) + 's (rate limit)…';
+      renderGrid();
+      await sleep(betweenDelay);
+    }
+
+    t.status = 'working';
+    t.error = null;
+    renderGrid();
+
+    try {
+      var svg = null;
+      for (var attempt = 1; attempt <= 4; attempt++) {
+        try {
+          svg = await callAI(key, model, t, hifi);
+          break;
+        } catch(e) {
+          if (String(e).indexOf('__429__') !== -1) {
+            if (attempt >= 4) throw new Error('Rate limit — try again in 1 minute, or upgrade Gemini plan');
+            var wait = attempt * 20; // 20s, 40s, 60s
+            t.error = '⏳ Rate limit — waiting ' + wait + 's…';
+            renderGrid();
+            await sleep(wait * 1000);
+          } else {
+            throw e;
+          }
+        }
+      }
+      t.resultSvg = svg;
+      t.status = 'done';
+      t.error = null;
+    } catch(e) {
+      t.status = 'error';
+      t.error = String(e).replace('Error: ', '').replace('__429__', 'Rate limit — wait 1 min and retry');
+    }
+    renderGrid();
+  }
+
+  state.running = false;
+  btn.innerHTML = '⚡ Transform Icons';
+  validate();
+}
+
+// ── Export ─────────────────────────────────────────────────────────────────────
+function onFmtChange() {
+  var fmt = document.getElementById('export-fmt').value;
+  var btn = document.getElementById('export-btn');
+  if (fmt === 'figma') btn.textContent = '↓ Place in Figma';
+  else btn.textContent = '⬇ Download ' + fmt.toUpperCase();
+}
+
+function onExport() {
+  var fmt = document.getElementById('export-fmt').value;
+  if (fmt === 'figma') { placeAll(); return; }
+  downloadAll(fmt);
+}
+
+function placeAll() {
+  var items = state.targets.filter(function(t){ return t.status==='done' && t.resultSvg; })
+    .map(function(t){ return { name:t.name, svg:t.resultSvg }; });
+  if (!items.length) return;
+  parent.postMessage({ pluginMessage: { type:'place-svgs', items:items } }, '*');
+}
+
+function downloadAll(fmt) {
+  var items = state.targets.filter(function(t){ return t.status==='done' && t.resultSvg; });
+  if (!items.length) return;
+  if (fmt === 'svg') {
+    items.forEach(function(t) {
+      downloadBlob(new Blob([t.resultSvg], { type: 'image/svg+xml' }), t.name + '.svg');
+    });
+    return;
+  }
+  // PNG / JPEG — rasterize via canvas (sequential with small delay)
+  var idx = 0;
+  function next() {
+    if (idx >= items.length) return;
+    var t = items[idx++];
+    svgToRaster(t.resultSvg, fmt, 512, function(dataUrl) {
+      downloadDataUrl(dataUrl, t.name + '.' + (fmt === 'jpeg' ? 'jpg' : fmt));
+      setTimeout(next, 200); // small delay between downloads
+    });
+  }
+  next();
+}
+
+function svgToRaster(svg, fmt, size, cb) {
+  // Ensure SVG has explicit dimensions for canvas rendering
+  var svgWithSize = svg.replace(/^<svg/, '<svg width="' + size + '" height="' + size + '"');
+  var blob = new Blob([svgWithSize], { type: 'image/svg+xml;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var img = new Image();
+  img.onload = function() {
+    var canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    var ctx = canvas.getContext('2d');
+    if (fmt === 'jpeg') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, size, size); }
+    else { ctx.clearRect(0, 0, size, size); }
+    ctx.drawImage(img, 0, 0, size, size);
+    URL.revokeObjectURL(url);
+    cb(canvas.toDataURL(fmt === 'jpeg' ? 'image/jpeg' : 'image/png', 0.95));
+  };
+  img.onerror = function() {
+    URL.revokeObjectURL(url);
+    cb(null);
+  };
+  img.src = url;
+}
+
+function downloadBlob(blob, name) {
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+}
+
+function downloadDataUrl(dataUrl, name) {
+  if (!dataUrl) return;
+  var a = document.createElement('a');
+  a.href = dataUrl; a.download = name;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function send(type) {
+  parent.postMessage({ pluginMessage: { type:type } }, '*');
+}
+
+window.onmessage = function(ev) {
+  var msg = ev.data && ev.data.pluginMessage;
+  if (!msg) return;
+  if (msg.type === 'place-done') {
+    figmaNotify('✓ Placed ' + msg.count + ' icon' + (msg.count!==1?'s':'') + ' in Figma');
+  }
+  if (msg.type === 'place-error') {
+    figmaNotify('✕ ' + msg.name + ': ' + msg.error, true);
+  }
+};
+
+function figmaNotify(msg, isErr) {
+  // Show a brief inline toast
+  var toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:'+(isErr?'#f87171':'#4ade80')+';color:#000;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;z-index:999;white-space:nowrap;box-shadow:0 4px 20px #0006';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.remove(); }, 3000);
+}
+
+// ── AI Routing ─────────────────────────────────────────────────────────────────
+async function callAI(key, model, target, hifi) {
+  var pv = getActiveProvider(); // uses auto-routing logic
+  if (pv === 'pollinations') return callPollinationsAPI(model, target, hifi);
+  if (pv === 'gemini')       return callGeminiAPI(key, model, target, hifi);
+  if (pv === 'claude')       return callClaudeAPI(key, model, target, hifi);
+  if (pv === 'ollama')       return callOpenAICompat('http://localhost:11434/v1/chat/completions', '', model, target, hifi, pv);
+  if (pv === 'openrouter')   return callOpenAICompat('https://openrouter.ai/api/v1/chat/completions', key, model, target, hifi, pv);
+  if (pv === 'github')       return callOpenAICompat('https://models.inference.ai.azure.com/chat/completions', key, model, target, hifi, pv);
+  return callOpenAICompat('https://api.openai.com/v1/chat/completions', key, model, target, hifi, pv);
+}
+
+// ── Pollinations.ai — free, no key, text-only mode ────────────────────────────
+async function callPollinationsAPI(model, target, hifi) {
+  // In auto mode the model dropdown may belong to another provider — use a safe default
+  if (!model || model.indexOf('/') !== -1 || model.indexOf('gemini') !== -1 || model.indexOf('gpt') !== -1) {
+    model = 'openai'; // best Pollinations model for SVG generation
+  }
+  // Build a pure-text prompt (Pollinations doesn't support base64 image inputs)
+  var styleDesc = document.getElementById('style-desc').value.trim();
+
+  // Reference context
+  var refContext = '';
+  if (state.ref.svg) {
+    refContext = 'REFERENCE ICON SVG CODE (copy this style exactly):\n' + state.ref.svg;
+  } else if (styleDesc) {
+    refContext = 'REFERENCE STYLE DESCRIPTION: ' + styleDesc;
+  } else {
+    refContext = 'REFERENCE STYLE: rich, detailed, polished icon style with depth and visual interest';
+  }
+
+  // Target context
+  var targetContext = '';
+  if (target.srcSvg) {
+    targetContext = 'TARGET ICON SVG TO RESTYLE:\n' + target.srcSvg;
+  } else {
+    targetContext = 'TARGET ICON NAME: "' + target.name + '"\n(Create this icon from scratch in the reference style)';
+  }
+
+  var vbInfo = '';
+  if (target.srcSvg) {
+    var vbm = target.srcSvg.match(/viewBox=["']([^"']+)["']/);
+    if (vbm) vbInfo = '\nUse viewBox="' + vbm[1] + '"';
+  }
+
+  var systemPrompt = 'You are an expert SVG icon designer. Output ONLY valid SVG code — no markdown, no explanation.\n'
+    + 'Your entire response must start with <svg and end with </svg>.';
+
+  var userMsg = refContext + '\n\n' + targetContext + '\n\n'
+    + 'TASK: ' + (target.srcSvg ? 'Redraw the target SVG applying the reference visual style.' : 'Create the named icon in the reference style.')
+    + (hifi ? '\nMake it high-fidelity: match colors, gradients, stroke weight, fills, and visual polish precisely.' : '')
+    + vbInfo
+    + '\n\nOutput the SVG now:';
+
+  var body = {
+    model: model,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user',   content: userMsg }
+    ],
+    private: true,
+    seed: Math.floor(Math.random() * 999999)
+  };
+
+  var ctrl = new AbortController();
+  var t = setTimeout(function(){ ctrl.abort(); }, 90000);
+  var res;
+  try {
+    res = await fetch('https://text.pollinations.ai/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      signal: ctrl.signal,
+      body: JSON.stringify(body)
+    });
+  } finally { clearTimeout(t); }
+
+  if (res.status === 429) throw new Error('__429__');
+  if (!res.ok) { var e = await res.text(); throw new Error('Pollinations ' + res.status + ': ' + e.slice(0,150)); }
+
+  var raw = await res.text();
+  var text = raw.trim();
+  try {
+    var data = JSON.parse(raw);
+    var choice = ((data.choices||[])[0]||{});
+    if (choice.message && choice.message.content) text = choice.message.content.trim();
+  } catch(e) {}
+
+  return extractSVG(text);
+}
+
+function buildPrompt(target, hifi) {
+  var w = 24, h = 24;
+  // Try to parse viewBox from source SVG
+  if (target.srcSvg) {
+    var vbm = target.srcSvg.match(/viewBox=["']([^"']+)["']/);
+    if (vbm) { var vb=vbm[1].trim().split(/\s+/); if(vb.length===4){w=parseFloat(vb[2])||24;h=parseFloat(vb[3])||24;} }
+    var wm=target.srcSvg.match(/\bwidth=["']([0-9.]+)/); if(wm)w=parseFloat(wm[1])||w;
+    var hm=target.srcSvg.match(/\bheight=["']([0-9.]+)/); if(hm)h=parseFloat(hm[1])||h;
+  }
+  var vb = '0 0 '+w+' '+h;
+  if (hifi) {
+    return 'You are a world-class SVG icon designer specializing in style transfer.\n\n'
+      +'TASK: Redraw the TARGET ICON by applying the REFERENCE ICON\'s visual style.\n\n'
+      +'STYLE REQUIREMENTS:\n'
+      +'- Preserve the TARGET ICON\'s exact semantic shape and meaning (100%)\n'
+      +'- Apply REFERENCE color palette, gradients, and fills precisely\n'
+      +'- Match REFERENCE stroke weight, line caps, and corner radius\n'
+      +'- Match REFERENCE visual polish: flat/gradient/metallic/glass effect\n'
+      +'- Match REFERENCE shadow, glow, and layer depth if present\n'
+      +'- Aim for 95% visual style similarity to the reference\n\n'
+      +'SVG RULES:\n'
+      +'- Use viewBox="'+vb+'", no width/height attributes\n'
+      +'- Embed gradients/defs inline in the SVG\n'
+      +'- Output ONLY valid SVG: start with <svg, end with </svg>\n'
+      +'- No markdown, no explanation, no code fences';
+  } else {
+    return 'Redraw the TARGET ICON in the visual style of the REFERENCE ICON.\n'
+      +'- Keep the same icon shape and meaning\n'
+      +'- Apply reference colors, stroke weight, fill style\n'
+      +'- Use viewBox="'+vb+'"\n'
+      +'- Output ONLY <svg>…</svg>, nothing else';
+  }
+}
+
+async function callGeminiAPI(key, model, target, hifi) {
+  var prompt = buildPrompt(target, hifi);
+  var parts = [];
+  if (state.ref.svg) {
+    parts.push({ text: 'REFERENCE ICON (SVG source):\n'+state.ref.svg });
+  } else {
+    parts.push({ text: 'REFERENCE ICON:' });
+    parts.push({ inline_data: { mime_type: state.ref.mime, data: state.ref.base64 } });
+  }
+  if (target.srcSvg) {
+    parts.push({ text: 'TARGET ICON (SVG source):\n'+target.srcSvg });
+  } else {
+    parts.push({ text: 'TARGET ICON:' });
+    parts.push({ inline_data: { mime_type: target.srcMime, data: target.srcBase64 } });
+  }
+  parts.push({ text: prompt+'\n\nOutput the styled SVG now:' });
+
+  var ctrl = new AbortController();
+  var t = setTimeout(function(){ ctrl.abort(); }, 60000);
+  var res;
+  try {
+    res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key, {
+      method:'POST', signal:ctrl.signal,
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({ contents:[{parts:parts}], generationConfig:{maxOutputTokens:8192,temperature:0.1} })
+    });
+  } finally { clearTimeout(t); }
+  if (res.status===429) throw new Error('__429__');
+  if (!res.ok) { var e=await res.text(); throw new Error('Gemini '+res.status+': '+e.slice(0,150)); }
+  var data = await res.json();
+  var text = (((data.candidates||[])[0]||{}).content||{}).parts||[];
+  return extractSVG(text.map(function(p){return p.text||'';}).join('').trim());
+}
+
+async function callClaudeAPI(key, model, target, hifi) {
+  var prompt = buildPrompt(target, hifi);
+  var userContent = [];
+  if (state.ref.svg) {
+    userContent.push({ type:'text', text:'REFERENCE ICON (SVG):\n'+state.ref.svg });
+  } else {
+    userContent.push({ type:'text', text:'REFERENCE ICON:' });
+    userContent.push({ type:'image', source:{ type:'base64', media_type:state.ref.mime, data:state.ref.base64 } });
+  }
+  if (target.srcSvg) {
+    userContent.push({ type:'text', text:'TARGET ICON (SVG):\n'+target.srcSvg });
+  } else {
+    userContent.push({ type:'text', text:'TARGET ICON:' });
+    userContent.push({ type:'image', source:{ type:'base64', media_type:target.srcMime, data:target.srcBase64 } });
+  }
+  userContent.push({ type:'text', text:'Output the styled SVG now:' });
+
+  var ctrl = new AbortController();
+  var t = setTimeout(function(){ ctrl.abort(); }, 60000);
+  var res;
+  try {
+    res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', signal:ctrl.signal,
+      headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({ model:model, max_tokens:8192, system:prompt, messages:[{role:'user',content:userContent}] })
+    });
+  } finally { clearTimeout(t); }
+  if (res.status===429) throw new Error('__429__');
+  if (res.status===401) throw new Error('Claude API key invalid (401)');
+  if (!res.ok) { var e=await res.text(); throw new Error('Claude '+res.status+': '+e.slice(0,150)); }
+  var data = await res.json();
+  return extractSVG((data.content||[]).map(function(b){return b.text||'';}).join('').trim());
+}
+
+async function callOpenAICompat(endpoint, key, model, target, hifi, pv) {
+  var prompt = buildPrompt(target, hifi);
+  var userParts = [];
+  if (state.ref.svg) {
+    userParts.push({ type:'text', text:'REFERENCE ICON (SVG):\n'+state.ref.svg });
+  } else {
+    userParts.push({ type:'text', text:'REFERENCE ICON:' });
+    userParts.push({ type:'image_url', image_url:{ url:'data:'+state.ref.mime+';base64,'+state.ref.base64 } });
+  }
+  if (target.srcSvg) {
+    userParts.push({ type:'text', text:'TARGET ICON (SVG):\n'+target.srcSvg });
+  } else {
+    userParts.push({ type:'text', text:'TARGET ICON:' });
+    userParts.push({ type:'image_url', image_url:{ url:'data:'+target.srcMime+';base64,'+target.srcBase64 } });
+  }
+  userParts.push({ type:'text', text:'Output the styled SVG now:' });
+
+  var headers = { 'content-type':'application/json' };
+  if (key) headers['authorization'] = 'Bearer '+key;
+  if (pv==='openrouter') { headers['http-referer']='https://figma.com'; headers['x-title']='Cloner 2.0'; }
+
+  var ctrl = new AbortController();
+  var t = setTimeout(function(){ ctrl.abort(); }, 60000);
+  var res;
+  try {
+    res = await fetch(endpoint, {
+      method:'POST', signal:ctrl.signal, headers:headers,
+      body:JSON.stringify({ model:model, max_tokens:8192, messages:[{role:'system',content:prompt},{role:'user',content:userParts}] })
+    });
+  } finally { clearTimeout(t); }
+  if (res.status===429) throw new Error('__429__');
+  if (res.status===401) throw new Error('API key invalid (401)');
+  if (!res.ok) { var e=await res.text(); throw new Error(pv+' '+res.status+': '+e.slice(0,150)); }
+  var data = await res.json();
+  var choice = ((data.choices||[])[0]||{});
+  return extractSVG((choice.message&&choice.message.content)||'');
+}
+
+function extractSVG(text) {
+  text = text.trim();
+  var m = text.match(/<svg[\s\S]*<\/svg>/i);
+  if (!m) {
+    var fence = text.match(/```(?:svg|xml)?\s*([\s\S]*?)```/i);
+    if (fence) m = fence[1].match(/<svg[\s\S]*<\/svg>/i);
+  }
+  if (!m) throw new Error('No SVG in response: "'+text.slice(0,80)+'"');
+  return cleanSVG(m[0]);
+}
+
+function cleanSVG(svg) {
+  // Ensure xmlns present — required by Figma createNodeFromSvg
+  if (!svg.match(/xmlns\s*=/)) {
+    svg = svg.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
+  // Remove elements Figma can't handle
+  svg = svg.replace(/<script[\s\S]*?<\/script>/gi, '');
+  svg = svg.replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, '');
+  svg = svg.replace(/<image[^>]*xlink:href="http[^"]*"[^>]*\/?>/gi, '');
+  // Remove width/height attributes to let Figma scale properly
+  svg = svg.replace(/(<svg[^>]*)\s+width="[^"]*"/i, '$1');
+  svg = svg.replace(/(<svg[^>]*)\s+height="[^"]*"/i, '$1');
+  return svg.trim();
+}
+
+function sleep(ms){ return new Promise(function(r){setTimeout(r,ms);}); }
+
+// ── Drag & Drop — Target Icons grid ───────────────────────────────────────────
+(function() {
+  var grid = document.getElementById('icons-grid');
+
+  grid.addEventListener('dragenter', function(e){ e.preventDefault(); grid.classList.add('drag-over'); });
+  grid.addEventListener('dragover',  function(e){ e.preventDefault(); });
+  grid.addEventListener('dragleave', function(e){
+    // only remove when leaving the grid entirely
+    if (!grid.contains(e.relatedTarget)) grid.classList.remove('drag-over');
+  });
+  grid.addEventListener('drop', function(e) {
+    e.preventDefault();
+    grid.classList.remove('drag-over');
+    var files = Array.prototype.slice.call(e.dataTransfer.files).filter(function(f){
+      return /\.(svg|png|jpe?g|webp)$/i.test(f.name) || /^image\//.test(f.type);
+    });
+    if (!files.length) return;
+    Promise.all(files.map(function(f){ return readTargetFile(f); })).then(function(items){
+      items.forEach(function(item){ if(item) state.targets.push(item); });
+      renderGrid(); validate();
+    });
+  });
+
+  // ── Drag & Drop — Reference area ──────────────────────────────────────────
+  var refDrop = document.getElementById('ref-drop');
+  refDrop.addEventListener('dragenter', function(e){ e.preventDefault(); refDrop.style.borderColor='#6c63ff'; refDrop.style.background='#6c63ff11'; });
+  refDrop.addEventListener('dragover',  function(e){ e.preventDefault(); });
+  refDrop.addEventListener('dragleave', function(e){
+    if (!refDrop.contains(e.relatedTarget)){ refDrop.style.borderColor=''; refDrop.style.background=''; }
+  });
+  refDrop.addEventListener('drop', function(e) {
+    e.preventDefault();
+    refDrop.style.borderColor=''; refDrop.style.background='';
+    var files = e.dataTransfer.files;
+    if (!files.length) return;
+    // Create a fake input event using the dropped file
+    var file = files[0];
+    var isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
+    if (isSvg) {
+      var r = new FileReader();
+      r.onload = function(ev){ state.ref = { svg:ev.target.result, base64:null, mime:'image/svg+xml', url:URL.createObjectURL(file) }; showRef(state.ref.url); };
+      r.readAsText(file);
+    } else {
+      var r2 = new FileReader();
+      r2.onload = function(ev){ var du=ev.target.result; state.ref={svg:null,base64:du.split(',')[1],mime:file.type||'image/png',url:du}; showRef(du); };
+      r2.readAsDataURL(file);
+    }
+  });
+})();
+</script>
+</body>
+</html>
