@@ -1,0 +1,42 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aggregator-landing-page",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "C:/Users/User/Desktop/Claude code/FORMA-Studio"],
+      "port": 3000
+    },
+    {
+      "name": "stable-diffusion-webui",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["C:/Users/User/Desktop/Stable Diffusion/sd.webui/webui/launch.py"],
+      "port": 7860
+    },
+    {
+      "name": "waterproofing-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3001", "--directory", "C:/Users/User/Desktop/Claude code"],
+      "port": 3001
+    },
+    {
+      "name": "waterproofing-framer",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "C:/Users/User/Desktop/Claude code/waterproofing-framer",
+      "port": 3002
+    },
+    {
+      "name": "icon-cloner-ui",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3456", "--directory", "C:/Users/User/Desktop/Claude code/Icon-Cloner"],
+      "port": 3456
+    },
+    {
+      "name": "mirai-systems",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3457", "--directory", "C:/Users/User/Desktop/Claude code/mirai-systems"],
+      "port": 3457
+    }
+  ]
+}

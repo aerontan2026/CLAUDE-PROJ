@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AquaShield Pro — Waterproofing & Water Seepage Solutions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #0c1f3a;
+      --blue:   #0369a1;
+      --cyan:   #0891b2;
+      --sky:    #e0f2fe;
+      --white:  #ffffff;
+      --light:  #f8fafc;
+      --slate:  #f1f5f9;
+      --text:   #0f172a;
+      --muted:  #64748b;
+      --border: #e2e8f0;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ═══ NAV ═══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 6%;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 12px rgba(0,0,0,.06);
+    }
+    .logo-wrap { display: flex; align-items: center; gap: .65rem; }
+    .logo { font-size: 1.3rem; font-weight: 800; color: var(--navy); letter-spacing: -.4px; }
+    .logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue); color: #fff; padding: .55rem 1.5rem;
+      border-radius: 8px; font-weight: 700; font-size: .875rem;
+      text-decoration: none; transition: background .2s, transform .2s;
+      box-shadow: 0 2px 12px rgba(3,105,161,.3);
+    }
+    .nav-cta:hover { background: #0284c7; transform: translateY(-1px); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 7rem 6% 5rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover; background-position: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg,
+        rgba(12,31,58,.92) 0%,
+        rgba(12,31,58,.82) 45%,
+        rgba(12,31,58,.45) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 620px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(8,145,178,.2); border: 1px solid rgba(8,145,178,.45);
+      color: #7dd3fc; padding: .35rem 1rem; border-radius: 100px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: #7dd3fc; animation: blink 1.8s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .hero h1 {
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 900; line-height: 1.06; letter-spacing: -.03em;
+      color: #fff; margin-bottom: 1.25rem;
+    }
+    .hero h1 span { color: #38bdf8; }
+    .hero-sub { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 2.5rem; line-height: 1.75; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--blue); color: #fff; padding: .9rem 1.9rem;
+      border-radius: 8px; font-weight: 700; font-size: .95rem;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(3,105,161,.4);
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { background: #0284c7; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(3,105,161,.5); }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3);
+      color: #fff; padding: .9rem 1.9rem; border-radius: 8px;
+      font-weight: 600; font-size: .95rem; text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-white:hover { background: rgba(255,255,255,.22); }
+    /* hero mini stats */
+    .hero-mini-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .mini-stat { color: #fff; }
+    .mini-stat-num { font-size: 1.8rem; font-weight: 900; color: #38bdf8; line-height: 1; }
+    .mini-stat-label { font-size: .78rem; color: #94a3b8; margin-top: .15rem; }
+
+    /* ═══ TRUST RIBBON ═══ */
+    .trust-ribbon {
+      background: var(--navy); padding: 1.4rem 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .trust-ribbon-label { font-size: .78rem; color: #64748b; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+    .trust-items { display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: .5rem; opacity: .55; transition: opacity .2s; }
+    .trust-item:hover { opacity: .9; }
+    .trust-item svg { width: 20px; height: 20px; }
+    .trust-item span { font-size: .82rem; font-weight: 700; color: #94a3b8; }
+
+    /* ═══ SECTION COMMONS ═══ */
+    .section-label {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: .75rem;
+    }
+    .section-label::before { content:''; width:20px; height:2px; background:var(--cyan); border-radius:2px; }
+    .section-title { font-size: clamp(1.8rem, 2.8vw, 2.6rem); font-weight: 800; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 1rem; color: var(--navy); }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.75; }
+
+    /* ═══ SERVICES SECTION ═══ */
+    .services { background: var(--light); padding: 6rem 6%; }
+    .services-header { text-align: center; margin-bottom: 3.5rem; }
+    .services-header .section-label { justify-content: center; }
+    .services-header .section-sub { margin: 0 auto; }
+    .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .service-card {
+      background: var(--white); border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(0,0,0,.05);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(3,105,161,.12); }
+    .service-img {
+      width: 100%; height: 180px; object-fit: cover;
+      display: block;
+    }
+    .service-body { padding: 1.5rem; }
+    .service-icon-row {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: .85rem;
+    }
+    .service-icon-wrap {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--sky); display: flex; align-items: center; justify-content: center;
+    }
+    .service-icon-wrap svg { width: 20px; height: 20px; }
+    .service-num { font-size: .72rem; font-weight: 800; color: #cbd5e1; letter-spacing: .06em; }
+    .service-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .45rem; color: var(--navy); }
+    .service-card p { font-size: .855rem; color: var(--muted); line-height: 1.65; }
+    .service-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .82rem; font-weight: 700; color: var(--blue);
+      margin-top: 1rem; text-decoration: none; transition: gap .2s;
+    }
+    .service-link:hover { gap: .6rem; }
+
+    /* ═══ PROBLEMS ═══ */
+    .problems { padding: 6rem 6%; background: var(--white); }
+    .problems-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .problems-photo-col { position: relative; }
+    .problems-main-img {
+      width: 100%; border-radius: 20px; object-fit: cover; height: 500px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.12);
+      display: block;
+    }
+    .problems-badge-float {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--blue); color: #fff;
+      border-radius: 16px; padding: 1.2rem 1.5rem;
+      box-shadow: 0 8px 32px rgba(3,105,161,.35);
+      min-width: 160px;
+    }
+    .float-num { font-size: 2rem; font-weight: 900; line-height: 1; }
+    .float-label { font-size: .78rem; margin-top: .2rem; opacity: .8; }
+    .problems-list { display: flex; flex-direction: column; gap: .85rem; margin-top: 2rem; }
+    .problem-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.1rem 1.3rem;
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: 12px; transition: border-color .2s, box-shadow .2s, transform .2s;
+    }
+    .problem-item:hover {
+      border-color: #bae6fd; box-shadow: 0 4px 20px rgba(3,105,161,.08); transform: translateX(4px);
+    }
+    .prob-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--sky); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prob-icon svg { width: 20px; height: 20px; }
+    .prob-text { font-size: .93rem; color: var(--navy); font-weight: 600; }
+    .prob-desc { font-size: .8rem; color: var(--muted); margin-top: .2rem; }
+
+    /* ═══ PROCESS ═══ */
+    .process { background: var(--navy); padding: 6rem 6%; position: relative; overflow: hidden; }
+    .process::before {
+      content:''; position: absolute; inset:0;
+      background-image: radial-gradient(rgba(56,189,248,.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .process-header { text-align: center; margin-bottom: 4rem; }
+    .process-header .section-title { color: #fff; }
+    .process-header .section-sub { margin: 0 auto; color: #94a3b8; }
+    .process-header .section-label { justify-content: center; }
+    .process-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+    .process-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .process-card:hover { border-color: rgba(56,189,248,.3); transform: translateY(-4px); }
+    .process-card-img {
+      width: 100%; height: 160px; object-fit: cover;
+      display: block; opacity: .85;
+      filter: saturate(.8);
+    }
+    .process-body { padding: 1.5rem; }
+    .process-step-row { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
+    .step-pill {
+      background: linear-gradient(135deg, #1d4ed8, #0891b2);
+      color: #fff; border-radius: 100px; padding: .2rem .75rem;
+      font-size: .72rem; font-weight: 800; letter-spacing: .06em;
+    }
+    .process-card h4 { font-size: .97rem; font-weight: 700; color: #e2e8f0; margin-bottom: .4rem; }
+    .process-card p { font-size: .84rem; color: #64748b; line-height: 1.65; }
+
+    /* ═══ WHY US ═══ */
+    .why { background: var(--light); padding: 6rem 6%; }
+    .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .why-photo-wrap { position: relative; }
+    .why-main-img {
+      width: 100%; height: 520px; object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.1);
+      display: block;
+    }
+    .why-second-img {
+      position: absolute; bottom: -24px; right: -24px;
+      width: 200px; height: 140px; object-fit: cover;
+      border-radius: 14px; border: 4px solid #fff;
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
+      display: block;
+    }
+    .why-check-badge {
+      position: absolute; top: 20px; left: -20px;
+      background: var(--white); border-radius: 14px;
+      padding: 1rem 1.3rem; box-shadow: 0 8px 32px rgba(0,0,0,.1);
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .check-icon-wrap {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: #dcfce7; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .check-icon-wrap svg { width: 20px; height: 20px; }
+    .why-steps { display: flex; flex-direction: column; gap: .1rem; margin-top: 2rem; }
+    .why-step {
+      display: flex; gap: 1.1rem; align-items: flex-start;
+      padding: 1.2rem; border-radius: 12px;
+      transition: background .2s;
+    }
+    .why-step:hover { background: var(--sky); }
+    .step-circle {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 800; color: #fff;
+    }
+    .step-content h5 { font-size: .93rem; font-weight: 700; color: var(--navy); margin-bottom: .2rem; }
+    .step-content p { font-size: .83rem; color: var(--muted); }
+    .guarantee-strip {
+      margin-top: 2rem; padding: 1.2rem 1.5rem;
+      background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: 12px; display: flex; align-items: center; gap: 1rem;
+    }
+    .guarantee-strip svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .guarantee-strip-text h6 { font-size: .88rem; font-weight: 700; color: #166534; }
+    .guarantee-strip-text p { font-size: .78rem; color: #4ade80; color: #16a34a; }
+
+    /* ═══ TEAM / PHOTO ROW ═══ */
+    .photo-row { padding: 5rem 6%; background: var(--white); }
+    .photo-row-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem; }
+    .photo-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: auto auto; gap: 1rem; }
+    .photo-item { border-radius: 14px; overflow: hidden; position: relative; }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+    .photo-item:hover img { transform: scale(1.04); }
+    .photo-item-1 { grid-column: 1; grid-row: 1/3; }
+    .photo-item-1 img { height: 400px; }
+    .photo-item-2 img, .photo-item-3 img { height: 192px; }
+    .photo-item-4 img, .photo-item-5 img { height: 192px; }
+    .photo-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: .75rem 1rem;
+      background: linear-gradient(to top, rgba(12,31,58,.8), transparent);
+      color: #fff; font-size: .78rem; font-weight: 600;
+    }
+
+    /* ═══ TESTIMONIALS ═══ */
+    .testimonials { background: var(--light); padding: 6rem 6%; }
+    .testi-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem; }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .testi-card {
+      background: var(--white); border-radius: 16px; padding: 1.8rem;
+      border: 1px solid var(--border); position: relative;
+      box-shadow: 0 2px 16px rgba(0,0,0,.04);
+      transition: box-shadow .25s, transform .25s;
+    }
+    .testi-card:hover { box-shadow: 0 12px 40px rgba(3,105,161,.1); transform: translateY(-3px); }
+    .testi-card::before {
+      content: '"'; position: absolute; top: 1rem; right: 1.5rem;
+      font-size: 5rem; line-height: 1; color: #e0f2fe;
+      font-family: Georgia, serif; pointer-events: none;
+    }
+    .stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+    .star-svg { width: 14px; height: 14px; fill: #f59e0b; }
+    .testi-text { font-size: .875rem; color: #475569; line-height: 1.78; margin-bottom: 1.4rem; }
+    .testi-author { display: flex; align-items: center; gap: .75rem; }
+    .avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .author-name { font-size: .88rem; font-weight: 700; color: var(--navy); }
+    .author-role { font-size: .76rem; color: var(--muted); }
+
+    /* ═══ CTA ═══ */
+    .cta-section { position: relative; padding: 8rem 6%; overflow: hidden; text-align: center; }
+    .cta-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover; background-position: center;
+    }
+    .cta-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(3,105,161,.94), rgba(12,31,58,.96));
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-section .section-label { justify-content: center; }
+    .cta-section .section-label::before { background: #7dd3fc; }
+    .cta-section .section-label { color: #7dd3fc; }
+    .cta-section .section-title { color: #fff; max-width: 560px; margin: .5rem auto 1.25rem; }
+    .cta-section .section-sub { color: #94a3b8; margin: 0 auto 2.5rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-white-solid {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: #fff; color: var(--blue); padding: .9rem 1.9rem;
+      border-radius: 8px; font-weight: 700; font-size: .95rem;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-white-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,.25); }
+    .cta-note { margin-top: 2rem; font-size: .82rem; color: #64748b; display: flex; align-items: center; justify-content: center; gap: .5rem; }
+    .cta-note svg { width: 15px; height: 15px; color: #7dd3fc; }
+    /* Contact strip */
+    .contact-strip {
+      background: var(--white); padding: 3rem 6%;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.5rem; border: 1px solid var(--border);
+      border-radius: 14px; transition: border-color .2s, box-shadow .2s;
+    }
+    .contact-item:hover { border-color: #bae6fd; box-shadow: 0 4px 20px rgba(3,105,161,.08); }
+    .contact-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      background: var(--sky); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contact-icon svg { width: 22px; height: 22px; }
+    .contact-label { font-size: .78rem; color: var(--muted); font-weight: 500; }
+    .contact-value { font-size: .95rem; font-weight: 700; color: var(--navy); margin-top: .1rem; }
+
+    /* ═══ FOOTER ═══ */
+    footer { background: var(--navy); padding: 3.5rem 6%; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem;
+      padding-bottom: 2.5rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-brand-desc { font-size: .875rem; color: #64748b; margin-top: .75rem; line-height: 1.7; max-width: 240px; }
+    .footer-col h6 { font-size: .85rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul li a { font-size: .855rem; color: #475569; text-decoration: none; transition: color .2s; }
+    .footer-col ul li a:hover { color: #38bdf8; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: .82rem; color: #334155; }
+    .footer-copy a { color: #38bdf8; text-decoration: none; }
+    .footer-logo { font-size: 1.2rem; font-weight: 800; color: #fff; }
+    .footer-logo span { color: #38bdf8; }
+
+    /* ═══ WAVE ═══ */
+    .wave { display:block; width:100%; overflow:hidden; line-height:0; }
+    .wave svg { display:block; width:100%; }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 768px) {
+      .problems-inner, .why-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .photo-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .photo-item-1 { grid-column: 1/3; grid-row: 1; }
+      .photo-item-1 img { height: 260px; }
+      .photo-item-2 img, .photo-item-3 img, .photo-item-4 img, .photo-item-5 img { height: 160px; }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .contact-strip { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 580px) {
+      .services-grid, .process-grid, .testi-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      section, .services, .problems, .process, .why, .photo-row, .testimonials { padding: 4rem 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="logo-wrap">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <path d="M17 2L4 8v10c0 7 5.5 13 13 14 7.5-1 13-7 13-14V8L17 2z" fill="url(#nav-lg)"/>
+      <path d="M17 10c0 0-5 5.5-5 9a5 5 0 0010 0c0-3.5-5-9-5-9z" fill="white" opacity=".9"/>
+      <defs>
+        <linearGradient id="nav-lg" x1="4" y1="2" x2="30" y2="32" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#0369a1"/><stop offset="1" stop-color="#0891b2"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="logo">Aqua<span>Shield</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#problems">Problems</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Assessment</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="pulse-dot"></span>Waterproofing Specialists</div>
+    <h1>Stop Water Seepage<br><span>at the Source</span></h1>
+    <p class="hero-sub">We diagnose, rectify, and prevent recurring leak issues with specialist waterproofing systems tailored to your building conditions.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Book a Free Assessment
+      </a>
+      <a href="#process" class="btn-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        See How We Work
+      </a>
+    </div>
+    <div class="hero-mini-stats">
+      <div class="mini-stat">
+        <div class="mini-stat-num">500+</div>
+        <div class="mini-stat-label">Buildings Treated</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-num">98%</div>
+        <div class="mini-stat-label">First-Fix Rate</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-num">15+</div>
+        <div class="mini-stat-label">Years Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST RIBBON ═══ -->
+<div class="trust-ribbon">
+  <span class="trust-ribbon-label">Trusted across sectors</span>
+  <div class="trust-items">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      <span>Commercial</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Residential</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M2 20h20M4 20V10l8-8 8 8v10M10 20v-6h4v6"/></svg>
+      <span>Industrial</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+      <span>Strata</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span>ISO Certified</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span>Award Winning</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div class="section-label">Our Services</div>
+    <h2 class="section-title">What We Do Best</h2>
+    <p class="section-sub">Comprehensive waterproofing solutions covering every building type, surface, and failure mode — delivered by specialists.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=700&q=80" alt="Roof waterproofing work" loading="lazy"/>
+      <div class="service-body">
+        <div class="service-icon-row">
+          <div class="service-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          </div>
+          <span class="service-num">01</span>
+        </div>
+        <h4>Roof & Parapet Waterproofing</h4>
+        <p>Complete membrane systems for flat roofs, pitched surfaces, parapet walls, and external envelopes to stop leaks at entry.</p>
+        <a href="#contact" class="service-link">Get a Quote <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=80" alt="Construction worker applying membrane" loading="lazy"/>
+      <div class="service-body">
+        <div class="service-icon-row">
+          <div class="service-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M12 2c0 0-6 6-6 10a6 6 0 0012 0c0-4-6-10-6-10z"/></svg>
+          </div>
+          <span class="service-num">02</span>
+        </div>
+        <h4>Wet Area & Bathroom Sealing</h4>
+        <p>Specialist wet area waterproofing for bathrooms, wet rooms, balconies, and podium decks using proven membrane systems.</p>
+        <a href="#contact" class="service-link">Get a Quote <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=700&q=80" alt="Construction site preparation" loading="lazy"/>
+      <div class="service-body">
+        <div class="service-icon-row">
+          <div class="service-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <span class="service-num">03</span>
+        </div>
+        <h4>Crack Injection & Joint Sealing</h4>
+        <p>Structural crack injection, movement joint sealing, and penetration detailing to eliminate all water entry pathways.</p>
+        <a href="#contact" class="service-link">Get a Quote <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=700&q=80" alt="Building exterior cladding" loading="lazy"/>
+      <div class="service-body">
+        <div class="service-icon-row">
+          <div class="service-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+          </div>
+          <span class="service-num">04</span>
+        </div>
+        <h4>Ceiling & Wall Seepage Repair</h4>
+        <p>Diagnose and permanently resolve recurring ceiling seepage and internal wall moisture from failing above or adjacent waterproofing.</p>
+        <a href="#contact" class="service-link">Get a Quote <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1590725140246-20acddc1ec6d?auto=format&fit=crop&w=700&q=80" alt="Roofing membrane installation" loading="lazy"/>
+      <div class="service-body">
+        <div class="service-icon-row">
+          <div class="service-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg>
+          </div>
+          <span class="service-num">05</span>
+        </div>
+        <h4>Leak Diagnosis & Assessment</h4>
+        <p>Comprehensive building moisture investigations using methodical tracing, moisture mapping, and root-cause analysis reporting.</p>
+        <a href="#contact" class="service-link">Get a Quote <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=700&q=80" alt="Commercial building exterior" loading="lazy"/>
+      <div class="service-body">
+        <div class="service-icon-row">
+          <div class="service-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><path d="M9 13l2 2 4-4"/></svg>
+          </div>
+          <span class="service-num">06</span>
+        </div>
+        <h4>Post-Work Documentation</h4>
+        <p>Water testing, quality checks, and full handover documentation packages so your building records are always complete.</p>
+        <a href="#contact" class="service-link">Get a Quote <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEMS ═══ -->
+<section class="problems" id="problems">
+  <div class="problems-inner">
+    <div class="problems-photo-col">
+      <img class="problems-main-img"
+        src="https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=800&q=80"
+        alt="Waterproofing specialist at work" loading="lazy"/>
+      <div class="problems-badge-float">
+        <div class="float-num">5+</div>
+        <div class="float-label">Problem Types<br>Solved Daily</div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Common Problems</div>
+      <h2 class="section-title">Sound Familiar?</h2>
+      <p class="section-sub">These are the issues we resolve every day. If you're experiencing any of the following, we can help.</p>
+      <div class="problems-list">
+        <div class="problem-item">
+          <div class="prob-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M12 2v4M8 14h8"/></svg>
+          </div>
+          <div>
+            <div class="prob-text">Recurring Ceiling & Wall Seepage</div>
+            <div class="prob-desc">Persistent moisture migration through concrete slabs and masonry walls</div>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="prob-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M3 7l9-5 9 5v2a9 9 0 01-9 9 9 9 0 01-9-9V7z"/></svg>
+          </div>
+          <div>
+            <div class="prob-text">Roof & External Envelope Leakage</div>
+            <div class="prob-desc">Failing roof membranes, parapet details, and cladding interfaces</div>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="prob-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M12 2c0 0-6 6-6 10a6 6 0 0012 0c0-4-6-10-6-10z"/></svg>
+          </div>
+          <div>
+            <div class="prob-text">Wet Area & Bathroom Water Ingress</div>
+            <div class="prob-desc">Tile bed failures, substrate saturation, and fixture-related leaks</div>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="prob-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/></svg>
+          </div>
+          <div>
+            <div class="prob-text">Joint, Crack & Detail-Related Failures</div>
+            <div class="prob-desc">Movement joints, construction gaps, and penetration seals breaking down</div>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="prob-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </div>
+          <div>
+            <div class="prob-text">Leaks Affecting Tenant Operations</div>
+            <div class="prob-desc">Water damage impacting interior finishes and business continuity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave -->
+<div class="wave" style="background:var(--white)"><svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="height:40px"><path d="M0,40 C480,0 960,0 1440,40 L1440,40 L0,40 Z" fill="#0c1f3a"/></svg></div>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="process" id="process">
+  <div class="process-header">
+    <div class="section-label" style="color:#7dd3fc">Our Six-Stage Process</div>
+    <h2 class="section-title">How We Deliver a Permanent Fix</h2>
+    <p class="section-sub">Every project follows a rigorous, documented methodology — from first visit to final handover.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-card">
+      <img class="process-card-img"
+        src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80"
+        alt="Site assessment inspection" loading="lazy"/>
+      <div class="process-body">
+        <div class="process-step-row"><span class="step-pill">STAGE 01</span></div>
+        <h4>Site Assessment & Diagnosis</h4>
+        <p>Thorough on-site inspection to identify leak sources, moisture pathways, and structural contributing factors.</p>
+      </div>
+    </div>
+    <div class="process-card">
+      <img class="process-card-img"
+        src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=600&q=80"
+        alt="System recommendation meeting" loading="lazy"/>
+      <div class="process-body">
+        <div class="process-step-row"><span class="step-pill">STAGE 02</span></div>
+        <h4>System Recommendation</h4>
+        <p>Tailored system selection matched to your substrate, exposure level, and building occupancy requirements.</p>
+      </div>
+    </div>
+    <div class="process-card">
+      <img class="process-card-img"
+        src="https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?auto=format&fit=crop&w=600&q=80"
+        alt="Surface preparation work" loading="lazy"/>
+      <div class="process-body">
+        <div class="process-step-row"><span class="step-pill">STAGE 03</span></div>
+        <h4>Surface Preparation</h4>
+        <p>Concrete repairs, substrate priming, crack injection, and surface profiling before membrane application.</p>
+      </div>
+    </div>
+    <div class="process-card">
+      <img class="process-card-img"
+        src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=600&q=80"
+        alt="Membrane application by worker" loading="lazy"/>
+      <div class="process-body">
+        <div class="process-step-row"><span class="step-pill">STAGE 04</span></div>
+        <h4>Membrane Application</h4>
+        <p>Precision membrane application with full attention to terminations, upstands, penetrations, and junctions.</p>
+      </div>
+    </div>
+    <div class="process-card">
+      <img class="process-card-img"
+        src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=80"
+        alt="Repair and reinstatement team" loading="lazy"/>
+      <div class="process-body">
+        <div class="process-step-row"><span class="step-pill">STAGE 05</span></div>
+        <h4>Repair & Reinstatement</h4>
+        <p>Coordinated repair of related elements including tiles, linings, and ceiling reinstatement works.</p>
+      </div>
+    </div>
+    <div class="process-card">
+      <img class="process-card-img"
+        src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=600&q=80"
+        alt="Documentation and handover" loading="lazy"/>
+      <div class="process-body">
+        <div class="process-step-row"><span class="step-pill">STAGE 06</span></div>
+        <h4>Checks & Handover Docs</h4>
+        <p>Water testing, visual inspections, and a full documentation package for your building records.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="wave" style="background:var(--navy)"><svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="height:40px"><path d="M0,0 C480,40 960,40 1440,0 L1440,40 L0,40 Z" fill="#f8fafc"/></svg></div>
+
+<!-- ═══ WHY US ═══ -->
+<section class="why" id="why">
+  <div class="why-inner">
+    <div class="why-photo-wrap">
+      <img class="why-main-img"
+        src="https://images.unsplash.com/photo-1517581177684-8c392f135a23?auto=format&fit=crop&w=800&q=80"
+        alt="Professional waterproofing team" loading="lazy"/>
+      <img class="why-second-img"
+        src="https://images.unsplash.com/photo-1590725140246-20acddc1ec6d?auto=format&fit=crop&w=400&q=80"
+        alt="Roofing membrane work" loading="lazy"/>
+      <div class="why-check-badge">
+        <div class="check-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:.88rem;font-weight:800;color:#0f172a">Workmanship</div>
+          <div style="font-size:.76rem;color:#64748b">Guaranteed</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Why It Works</div>
+      <h2 class="section-title">No More Patchwork.<br>No More Repeat Calls.</h2>
+      <p class="section-sub">Our team focuses on root-cause resolution and execution quality, helping clients avoid repeated patchwork cycles and escalating maintenance costs.</p>
+      <div class="why-steps">
+        <div class="why-step">
+          <div class="step-circle">1</div>
+          <div class="step-content">
+            <h5>Diagnose the real cause</h5>
+            <p>We trace moisture back to its true source — not just where it appears on the surface.</p>
+          </div>
+        </div>
+        <div class="why-step">
+          <div class="step-circle">2</div>
+          <div class="step-content">
+            <h5>Specify the right system</h5>
+            <p>No one-size-fits-all. We match the solution to your exact building conditions.</p>
+          </div>
+        </div>
+        <div class="why-step">
+          <div class="step-circle">3</div>
+          <div class="step-content">
+            <h5>Execute with precision</h5>
+            <p>Skilled applicators, quality materials, and rigorous quality checks at every stage.</p>
+          </div>
+        </div>
+        <div class="why-step">
+          <div class="step-circle">4</div>
+          <div class="step-content">
+            <h5>Document and hand over</h5>
+            <p>Full records so your building files are complete and future works are simpler.</p>
+          </div>
+        </div>
+      </div>
+      <div class="guarantee-strip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div class="guarantee-strip-text">
+          <h6>Quality Workmanship Guarantee</h6>
+          <p>Every project backed by our quality assurance promise and full documentation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHOTO ROW ═══ -->
+<section class="photo-row">
+  <div class="photo-row-header">
+    <div>
+      <div class="section-label">On the Job</div>
+      <h2 class="section-title" style="margin-bottom:0">Our Work in Action</h2>
+    </div>
+    <a href="#contact" class="btn-primary">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Book Site Visit
+    </a>
+  </div>
+  <div class="photo-grid">
+    <div class="photo-item photo-item-1">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80" alt="Workers on rooftop" loading="lazy"/>
+      <div class="photo-caption">Roof membrane installation — Commercial building</div>
+    </div>
+    <div class="photo-item photo-item-2">
+      <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=500&q=80" alt="Construction worker" loading="lazy"/>
+      <div class="photo-caption">Surface preparation</div>
+    </div>
+    <div class="photo-item photo-item-3">
+      <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=80" alt="Applying waterproof membrane" loading="lazy"/>
+      <div class="photo-caption">Membrane detailing</div>
+    </div>
+    <div class="photo-item photo-item-4">
+      <img src="https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?auto=format&fit=crop&w=500&q=80" alt="Construction crew at work" loading="lazy"/>
+      <div class="photo-caption">Quality checks</div>
+    </div>
+    <div class="photo-item photo-item-5">
+      <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=500&q=80" alt="Team handover briefing" loading="lazy"/>
+      <div class="photo-caption">Handover briefing</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="testimonials" id="testimonials">
+  <div class="testi-header">
+    <div>
+      <div class="section-label">Client Reviews</div>
+      <h2 class="section-title" style="margin-bottom:0">What Our Clients Say</h2>
+    </div>
+    <div style="display:flex;gap:.3rem">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span style="font-size:.82rem;color:#64748b;margin-left:.4rem;font-weight:600">5.0 from 200+ reviews</span>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="testi-text">"We had recurring ceiling leaks for three years. Every contractor patched it and it came back. AquaShield diagnosed the actual roof slab source — it's been completely dry for 18 months."</p>
+      <div class="testi-author">
+        <div class="avatar">DL</div>
+        <div>
+          <div class="author-name">David Lim</div>
+          <div class="author-role">Facility Manager, Commercial Tower</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="testi-text">"Professional from assessment to handover. The documentation package they provided was incredibly thorough — exactly what we needed for building records and insurance files."</p>
+      <div class="testi-author">
+        <div class="avatar">ST</div>
+        <div>
+          <div class="author-name">Sarah Tan</div>
+          <div class="author-role">Property Developer</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="testi-text">"Bathroom wet area caused damage to the unit below for two years. AquaShield resolved it in a single mobilisation — minimal disruption and no unnecessary tile removal."</p>
+      <div class="testi-author">
+        <div class="avatar">MR</div>
+        <div>
+          <div class="author-name">Michael Raj</div>
+          <div class="author-role">Strata Manager</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-overlay"></div>
+  <div class="cta-inner">
+    <div style="display:flex;justify-content:center;margin-bottom:1.5rem">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="32" fill="rgba(255,255,255,.1)"/>
+        <path d="M32 12L14 20v16c0 11 8 19 18 21 10-2 18-10 18-21V20L32 12z" fill="url(#cta-sh)"/>
+        <path d="M24 32l6 6 12-12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="cta-sh" x1="14" y1="12" x2="50" y2="52" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#0369a1"/></linearGradient></defs>
+      </svg>
+    </div>
+    <div class="section-label">Get Started Today</div>
+    <h2 class="section-title">Ready to Fix the Problem for Good?</h2>
+    <p class="section-sub">Book a waterproofing assessment with our specialists. We'll visit your site, diagnose the issue, and provide a clear scope — no obligation.</p>
+    <div class="cta-actions">
+      <a href="tel:+6500000000" class="btn-white-solid">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+        Call Us Today
+      </a>
+      <a href="mailto:info@aquashield.com" class="btn-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email an Enquiry
+      </a>
+    </div>
+    <div class="cta-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#7dd3fc" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      No obligation &nbsp;·&nbsp; Site visit included &nbsp;·&nbsp; Full written scope provided
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT STRIP ═══ -->
+<div class="contact-strip">
+  <div class="contact-item">
+    <div class="contact-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+    </div>
+    <div>
+      <div class="contact-label">Call Us Directly</div>
+      <div class="contact-value">+65 0000 0000</div>
+    </div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <div>
+      <div class="contact-label">Email Us</div>
+      <div class="contact-value">info@aquashield.com</div>
+    </div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    </div>
+    <div>
+      <div class="contact-label">Service Area</div>
+      <div class="contact-value">Nationwide Coverage</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Aqua<span>Shield</span> Pro</div>
+      <p class="footer-brand-desc">Specialist waterproofing and water seepage solutions for buildings of all types. Root-cause diagnosis, permanent fixes.</p>
+    </div>
+    <div class="footer-col">
+      <h6>Services</h6>
+      <ul>
+        <li><a href="#">Roof Waterproofing</a></li>
+        <li><a href="#">Wet Area Sealing</a></li>
+        <li><a href="#">Crack Injection</a></li>
+        <li><a href="#">Leak Diagnosis</a></li>
+        <li><a href="#">Handover Docs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Company</h6>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Case Studies</a></li>
+        <li><a href="#">Certifications</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Support</h6>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Book Assessment</a></li>
+        <li><a href="#">Get a Quote</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 AquaShield Pro. All rights reserved. &nbsp;|&nbsp; <a href="#">Privacy</a> &nbsp;|&nbsp; <a href="#">Terms</a></div>
+    <div style="font-size:.78rem;color:#334155">Waterproofing & Water Seepage Solutions</div>
+  </div>
+</footer>
+
+</body>
+</html>

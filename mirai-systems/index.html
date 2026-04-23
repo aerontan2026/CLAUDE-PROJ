@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Softopia — Digital Engineering, Singapore</title>
+  <meta name="description" content="Softopia is a Singapore-based digital engineering company delivering AI, cloud, and full-stack solutions built to scale across Asia-Pacific." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Softopia — Digital Engineering, Singapore" />
+  <meta property="og:description" content="AI · Cloud · Full-Stack. Built for scale across Asia-Pacific." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://softopia.co" />
+  <meta property="og:image" content="https://softopia.co/og-cover.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Softopia — Digital Engineering, Singapore" />
+  <meta name="twitter:description" content="AI · Cloud · Full-Stack. Built for scale across Asia-Pacific." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #07080f;
+      --surface:  #0d0f1a;
+      --surface2: #13162a;
+      --border:   rgba(255,255,255,0.07);
+      --accent:   #6C63FF;
+      --accent2:  rgba(108,99,255,0.12);
+      --white:    #ffffff;
+      --t1:       rgba(255,255,255,0.95);
+      --t2:       rgba(255,255,255,0.45);
+      --t3:       rgba(255,255,255,0.18);
+      --light-bg: #f5f5f7;
+      --light-t1: #0a0a14;
+      --light-t2: #6b6b80;
+      --light-border: rgba(0,0,0,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--t1);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(7,8,15,0.7);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-mark {
+      width: 32px; height: 32px; border-radius: 7px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px; color: white; letter-spacing: -0.5px;
+    }
+    .logo-label { font-size: 15px; font-weight: 700; color: var(--t1); letter-spacing: -0.3px; }
+
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a {
+      color: var(--t2); text-decoration: none; font-size: 13.5px; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover { color: var(--t1); background: rgba(255,255,255,0.06); }
+
+    .nav-end { display: flex; align-items: center; gap: 10px; }
+
+    .lang-toggle {
+      display: flex; background: rgba(255,255,255,0.05);
+      border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .lang-btn {
+      padding: 5px 11px; font-size: 12px; font-weight: 700;
+      color: var(--t3); cursor: pointer; border: none; background: transparent;
+      transition: background 0.15s, color 0.15s; letter-spacing: 0.3px; font-family: inherit;
+    }
+    .lang-btn.active { background: var(--accent); color: white; }
+
+    .nav-cta {
+      padding: 8px 18px; background: white; color: #0a0a14;
+      border-radius: 7px; font-weight: 700; font-size: 13px;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ─── HAMBURGER ─── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; width: 36px; height: 36px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      border-radius: 8px; cursor: pointer; padding: 0;
+    }
+    .nav-hamburger span {
+      display: block; width: 18px; height: 2px;
+      background: var(--t1); border-radius: 2px;
+      transition: transform 0.3s cubic-bezier(.16,1,.3,1), opacity 0.2s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE DRAWER ─── */
+    #mobile-menu {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: rgba(7,8,15,0.97);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      z-index: 199;
+      padding: 20px 24px 28px;
+      transform: translateY(-8px); opacity: 0;
+      transition: transform 0.3s cubic-bezier(.16,1,.3,1), opacity 0.25s;
+      pointer-events: none;
+    }
+    #mobile-menu.open {
+      transform: translateY(0); opacity: 1; pointer-events: all;
+    }
+    .mob-links { list-style: none; margin-bottom: 20px; }
+    .mob-links li { border-bottom: 1px solid var(--border); }
+    .mob-links a {
+      display: block; padding: 16px 4px;
+      color: var(--t1); text-decoration: none;
+      font-size: 18px; font-weight: 600; letter-spacing: -0.3px;
+      transition: color 0.15s, padding-left 0.2s;
+    }
+    .mob-links a:hover { color: var(--accent); padding-left: 8px; }
+    .mob-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 4px;
+    }
+    .mob-cta {
+      display: inline-block; padding: 12px 28px;
+      background: white; color: #0a0a14;
+      border-radius: 8px; font-weight: 700; font-size: 14px;
+      text-decoration: none;
+    }
+
+    html[data-theme="light"] #mobile-menu {
+      background: rgba(255,255,255,0.97);
+    }
+    html[data-theme="light"] .mob-links a { color: rgba(10,10,20,.85); }
+    html[data-theme="light"] .mob-cta { background: rgba(10,10,20,.9); color: white; }
+    html[data-theme="light"] .nav-hamburger {
+      background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1);
+    }
+    html[data-theme="light"] .nav-hamburger span { background: rgba(10,10,20,.8); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 48px 64px;
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 65%);
+      right: -100px; top: 50%; transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center; width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 20px; height: 1px; background: var(--accent);
+    }
+
+    .hero-title {
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -3px;
+      color: var(--t1);
+      margin-bottom: 28px;
+    }
+    .hero-title em { font-style: normal; color: var(--accent); }
+    .hero-title .outline {
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
+      color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 16px; color: var(--t2); line-height: 1.8;
+      max-width: 480px; margin-bottom: 36px;
+    }
+
+    .hero-ctas { display: flex; gap: 12px; }
+
+    .cta-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; background: white; color: #0a0a14;
+      border-radius: 8px; font-size: 14px; font-weight: 700;
+      text-decoration: none; transition: opacity 0.15s, transform 0.2s;
+    }
+    .cta-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .cta-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; background: transparent;
+      color: var(--t2); border: 1px solid var(--border);
+      border-radius: 8px; font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: color 0.15s, border-color 0.15s;
+    }
+    .cta-secondary:hover { color: var(--t1); border-color: rgba(255,255,255,0.2); }
+
+    .hero-stats {
+      display: flex; gap: 36px;
+      margin-top: 52px; padding-top: 36px;
+      border-top: 1px solid var(--border);
+    }
+    .hstat-val { font-size: 26px; font-weight: 800; color: var(--t1); letter-spacing: -0.5px; }
+    .hstat-lbl { font-size: 12px; color: var(--t3); margin-top: 3px; font-weight: 400; }
+
+    /* Hero image panel */
+    .hero-visual { position: relative; }
+
+    .hero-img-frame {
+      border-radius: 20px; overflow: hidden;
+      height: 520px; position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--border);
+    }
+    .hero-img-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.78) saturate(1.1); display: block; }
+    .hero-img-frame::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(7,8,15,0.4) 0%, transparent 50%, rgba(7,8,15,0.3) 100%);
+    }
+
+    .hero-badge {
+      position: absolute; bottom: 20px; left: 20px; z-index: 2;
+      background: rgba(7,8,15,0.82);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .badge-pulse {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #22c55e; flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+      animation: bpulse 2s infinite;
+    }
+    @keyframes bpulse {
+      0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(34,197,94,0.05); }
+    }
+    .badge-info { }
+    .badge-top { font-size: 13px; font-weight: 600; color: var(--t1); }
+    .badge-bot { font-size: 11px; color: var(--t3); margin-top: 1px; }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden; padding: 0;
+    }
+    .marquee-track {
+      display: flex; align-items: center;
+      animation: marquee 30s linear infinite;
+      width: max-content;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 32px;
+      font-size: 13px; font-weight: 600; color: var(--t3);
+      letter-spacing: 0.5px; white-space: nowrap;
+    }
+    .marquee-dot { width: 4px; height: 4px; background: var(--t3); border-radius: 50%; }
+
+    /* ─── SECTION SHELL ─── */
+    .sec { padding: 112px 48px; }
+    .sec-light { background: var(--light-bg); }
+    .sec-dark { background: var(--surface); }
+
+    /* ─── SECTION RHYTHM — each section breathes differently ─── */
+    section#services  { padding-top: 140px; padding-bottom: 120px; }
+    section#team      { padding-top: 96px;  padding-bottom: 80px; }
+    section.sec-testimonials { padding-top: 72px;  padding-bottom: 88px; }
+    section#faq       { padding-top: 100px; padding-bottom: 130px; }
+    section#contact   { padding-top: 80px;  padding-bottom: 80px; }
+
+    .sec-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .sec-label::before { content: ''; width: 16px; height: 1px; background: var(--accent); }
+
+    .sec-title {
+      font-size: clamp(32px, 3.8vw, 52px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+    .sec-sub {
+      font-size: 16px; line-height: 1.78;
+      max-width: 520px;
+    }
+    .sec .sec-title { color: var(--t1); }
+    .sec .sec-sub { color: var(--t2); }
+    .sec-light .sec-title { color: var(--light-t1); }
+    .sec-light .sec-sub { color: var(--light-t2); }
+    .sec-light .sec-label { color: var(--accent); }
+
+    .sec-header { margin-bottom: 64px; }
+
+    /* ─── SERVICES BENTO ─── */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+
+    .bento-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .bento-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-2px); }
+
+    .bento-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(230,57,70,0.5), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .bento-card:hover::before { opacity: 1; }
+
+    .bento-1 { grid-column: 1 / 8; }
+    .bento-2 { grid-column: 8 / 13; }
+    .bento-3 { grid-column: 1 / 6; }
+    .bento-4 { grid-column: 6 / 13; }
+
+    .bento-icon {
+      width: 44px; height: 44px; border-radius: 11px;
+      background: var(--accent2); border: 1px solid rgba(230,57,70,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 20px;
+    }
+    .bento-card h3 { font-size: 20px; font-weight: 700; color: var(--t1); margin-bottom: 10px; line-height: 1.3; }
+    .bento-card p { font-size: 14px; color: var(--t2); line-height: 1.75; margin-bottom: 20px; }
+
+    .bento-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .btag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+      padding: 4px 10px; border-radius: 5px;
+      background: rgba(255,255,255,0.05); color: var(--t2);
+      border: 1px solid var(--border);
+    }
+
+
+    /* ─── CONTACT ─── */
+    .contact-grid {
+      display: grid; grid-template-columns: 5fr 7fr; gap: 80px; align-items: start;
+    }
+
+    .contact-info-list { margin-top: 44px; display: flex; flex-direction: column; gap: 28px; }
+    .cinfo-item { display: flex; gap: 16px; align-items: flex-start; }
+    .cinfo-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .cinfo-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--t3); margin-bottom: 5px; }
+    .cinfo-val { font-size: 15px; color: var(--t1); font-weight: 400; line-height: 1.6; }
+    .cinfo-val a { color: #ff8a8a; text-decoration: none; }
+    .cinfo-val a:hover { text-decoration: underline; }
+    .cinfo-sub { font-size: 12px; color: var(--t3); margin-top: 2px; }
+
+    /* Form */
+    .form-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px;
+    }
+    .form-card h3 { font-size: 18px; font-weight: 700; color: var(--t1); margin-bottom: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .fgroup { margin-bottom: 14px; }
+    .fgroup label {
+      display: block; font-size: 11px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--t3); margin-bottom: 7px;
+    }
+    .fgroup input, .fgroup textarea, .fgroup select {
+      width: 100%; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 9px;
+      padding: 11px 14px; font-size: 14px; color: var(--t1);
+      font-family: inherit; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .fgroup input::placeholder, .fgroup textarea::placeholder { color: var(--t3); }
+    .fgroup input:focus, .fgroup textarea:focus { border-color: rgba(230,57,70,0.5); background: rgba(255,255,255,0.06); }
+    .fgroup textarea { resize: vertical; min-height: 108px; }
+
+    /* ─── FORM VALIDATION STYLES ─── */
+    .fgroup { position: relative; }
+
+    .fgroup .input-wrap { position: relative; }
+    .fgroup .val-icon {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 15px; opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .fgroup.valid   .val-icon { opacity: 1; }
+    .fgroup.invalid .val-icon { opacity: 1; }
+
+    .fgroup.valid   input,
+    .fgroup.valid   textarea {
+      border-color: #22c55e;
+      background: rgba(34,197,94,0.04);
+    }
+    .fgroup.invalid input,
+    .fgroup.invalid textarea {
+      border-color: var(--accent);
+      background: rgba(230,57,70,0.04);
+    }
+    html[data-theme="light"] .fgroup.valid  input { background: rgba(34,197,94,0.05); }
+    html[data-theme="light"] .fgroup.invalid input { background: rgba(230,57,70,0.05); }
+
+    .fgroup .val-msg {
+      font-size: 11px; margin-top: 5px; padding-left: 2px;
+      height: 0; overflow: hidden; opacity: 0;
+      transition: height 0.2s, opacity 0.2s;
+    }
+    .fgroup.invalid .val-msg { height: 16px; opacity: 1; color: #ff6b6b; }
+    .fgroup.valid   .val-msg { height: 16px; opacity: 1; color: #22c55e; }
+
+    .btn-send {
+      width: 100%; padding: 13px; margin-top: 8px;
+      background: var(--accent); color: white; border: none;
+      border-radius: 9px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      transition: opacity 0.2s, transform 0.2s, background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-send:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+    .btn-send:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+    .btn-send.sending { background: #555; }
+    .btn-send.success { background: #22c55e; }
+
+    .spinner {
+      width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .btn-send.sending .spinner { display: block; }
+    .btn-send.sending .btn-label { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 28px 48px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-left { display: flex; align-items: center; gap: 10px; }
+    .footer-copy { font-size: 12px; color: var(--t3); }
+    .footer-right { display: flex; gap: 24px; align-items: center; }
+    .footer-link { font-size: 12px; color: var(--t3); text-decoration: none; transition: color 0.15s; }
+    .footer-link:hover { color: var(--t2); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      nav, .hero, .sec { padding-left: 28px; padding-right: 28px; }
+      footer { padding-left: 28px; padding-right: 28px; }
+      .bento-1 { grid-column: 1 / 13; }
+      .bento-2 { grid-column: 1 / 7; }
+      .bento-3 { grid-column: 7 / 13; }
+      .bento-4 { grid-column: 1 / 13; }
+      .vision-goals { grid-template-columns: repeat(2,1fr); }
+      .pillar-row { grid-template-columns: 80px 1fr; }
+      .pillar-desc { grid-column: 2; margin-top: 8px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .offices { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      #mobile-menu { display: block; }
+    }
+    @media (max-width: 540px) {
+      .pillar-row { grid-template-columns: 1fr; gap: 8px; }
+      .vision-goals { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── ENHANCED ANIMATIONS ─── */
+    /* Reveal variants */
+    .reveal-left  { opacity:0; transform:translateX(-32px); transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1); }
+    .reveal-left.visible  { opacity:1; transform:translateX(0); }
+    .reveal-scale { opacity:0; transform:scale(0.93) translateY(16px); transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
+    .reveal-scale.visible { opacity:1; transform:scale(1) translateY(0); }
+
+    /* Hero glow breathes — opacity only, no layout cost */
+    @keyframes glow-breathe {
+      0%,100% { opacity:1; }
+      50%      { opacity:0.55; }
+    }
+    .hero::before { animation: glow-breathe 9s ease-in-out infinite; will-change: opacity; }
+
+    /* Hero image floats — GPU layer */
+    @keyframes float {
+      0%,100% { transform:translateY(0px); }
+      50%      { transform:translateY(-12px); }
+    }
+    .hero-visual { animation: float 7s ease-in-out infinite; will-change: transform; }
+
+    /* Marquee pause on hover */
+    .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+    /* Bento card tilt on hover */
+    .bento-card { transition: border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+    .bento-card:hover { transform: translateY(-6px) rotate(-0.3deg); box-shadow: 0 24px 60px rgba(0,0,0,0.3); }
+
+    /* Process cell lift */
+    .process-cell { transition: background .2s, transform .25s cubic-bezier(.34,1.56,.64,1); }
+    .process-cell:hover { transform: translateY(-4px); }
+
+    /* Vision card pop */
+    .vision-card { transition: border-color .2s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+    .vision-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+
+    /* Pillar row slide */
+    .pillar-row { transition: background .2s, padding-left .3s; }
+    .pillar-row:hover { background: rgba(230,57,70,0.03); padding-left: 12px; }
+
+    /* Stat counter shimmer */
+    @keyframes count-in {
+      from { opacity:0; transform:translateY(8px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .hstat-val.counted { animation: count-in .4s ease forwards; }
+
+    /* Nav CTA pulse ring on load */
+    @keyframes ring {
+      0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.3); }
+      70%  { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+    }
+    .nav-cta { animation: ring 2.5s ease-out 1.5s 2; }
+
+    /* Smooth theme transitions */
+    .theme-transitioning *, .theme-transitioning *::before, .theme-transitioning *::after {
+      transition: background-color .35s ease, border-color .35s ease, color .25s ease,
+                  box-shadow .35s ease !important;
+    }
+
+    /* Theme toggle button */
+    .theme-btn {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; line-height: 1;
+      transition: background .15s, transform .3s cubic-bezier(.34,1.56,.64,1);
+      flex-shrink: 0;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,0.12); transform: rotate(20deg) scale(1.1); }
+
+    /* ─── LIGHT THEME ─── */
+    html[data-theme="light"] {
+      --bg:       #ffffff;
+      --surface:  #f5f5f7;
+      --surface2: #ebebef;
+      --border:   rgba(0,0,0,0.08);
+      --t1:       rgba(10,10,20,0.92);
+      --t2:       rgba(10,10,20,0.52);
+      --t3:       rgba(10,10,20,0.28);
+    }
+    html[data-theme="light"] body { background:#ffffff; color:rgba(10,10,20,.92); }
+
+    html[data-theme="light"] nav {
+      background: rgba(250,250,253,0.94);
+      border-bottom-color: rgba(0,0,0,0.07);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+    }
+    html[data-theme="light"] .logo-label { color:rgba(10,10,20,.92); }
+    html[data-theme="light"] .nav-links a { color:rgba(10,10,20,.5); }
+    html[data-theme="light"] .nav-links a:hover { color:rgba(10,10,20,.92); background:rgba(0,0,0,.04); }
+    html[data-theme="light"] .lang-toggle { background:rgba(0,0,0,.04); border-color:rgba(0,0,0,.1); }
+    html[data-theme="light"] .lang-btn { color:rgba(10,10,20,.3); }
+    html[data-theme="light"] .theme-btn { background:rgba(0,0,0,.05); border-color:rgba(0,0,0,.1); }
+    html[data-theme="light"] .theme-btn:hover { background:rgba(0,0,0,.1); }
+    html[data-theme="light"] .nav-cta { background:rgba(10,10,20,.9); color:white; }
+
+    html[data-theme="light"] .hero { background: rgba(247, 248, 252, 0.84); }
+    html[data-theme="light"] .hero::before {
+      background: radial-gradient(circle, rgba(108,99,255,0.10) 0%, transparent 65%);
+    }
+    html[data-theme="light"] .hero::after {
+      background-image:
+        linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+    }
+    html[data-theme="light"] .hero-title { color:rgba(10,10,20,.92); }
+    html[data-theme="light"] .hero-title .outline { -webkit-text-stroke:1.5px rgba(10,10,20,.18); color:transparent; }
+    html[data-theme="light"] .hero-desc { color:rgba(10,10,20,.5); }
+    html[data-theme="light"] .cta-primary { background:rgba(10,10,20,.9); color:white; }
+    html[data-theme="light"] .cta-secondary { color:rgba(10,10,20,.5); border-color:rgba(0,0,0,.12); }
+    html[data-theme="light"] .cta-secondary:hover { color:rgba(10,10,20,.9); border-color:rgba(0,0,0,.3); }
+    html[data-theme="light"] .hero-stats { border-top-color:rgba(0,0,0,.08); }
+    html[data-theme="light"] .hstat-lbl { color:rgba(10,10,20,.3); }
+    html[data-theme="light"] .hero-eyebrow::before { background:var(--accent); }
+
+    html[data-theme="light"] .marquee-wrap { background:#f0f0f3; border-color:rgba(0,0,0,.07); }
+    html[data-theme="light"] .marquee-item { color:rgba(10,10,20,.35); }
+    html[data-theme="light"] .marquee-dot { background:rgba(10,10,20,.2); }
+
+    html[data-theme="light"] .bento-card { background:#f8f9fb; border-color:rgba(0,0,0,.07); }
+    html[data-theme="light"] .bento-card:hover { box-shadow:0 24px 60px rgba(0,0,0,.1); }
+    html[data-theme="light"] .bento-card h3 { color:rgba(10,10,20,.92); }
+    html[data-theme="light"] .bento-card p { color:rgba(10,10,20,.5); }
+    html[data-theme="light"] .bento-num { color:rgba(0,0,0,.04); }
+    html[data-theme="light"] .btag { background:rgba(0,0,0,.05); color:rgba(10,10,20,.55); border-color:rgba(0,0,0,.07); }
+    html[data-theme="light"] .bento-icon { background:rgba(108,99,255,.08); border-color:rgba(108,99,255,.18); }
+
+    html[data-theme="light"] .sec-light { background:#eeeef4; }
+
+
+    html[data-theme="light"] section[id="contact"] { background:#f8f9fb; }
+    html[data-theme="light"] .cinfo-icon { background:rgba(0,0,0,.04); border-color:rgba(0,0,0,.08); }
+    html[data-theme="light"] .cinfo-lbl { color:rgba(10,10,20,.28); }
+    html[data-theme="light"] .cinfo-val { color:rgba(10,10,20,.9); }
+    html[data-theme="light"] .cinfo-sub { color:rgba(10,10,20,.35); }
+    html[data-theme="light"] .form-card { background:white; border-color:rgba(0,0,0,.08); box-shadow:0 4px 24px rgba(0,0,0,.06); }
+    html[data-theme="light"] .form-card h3 { color:rgba(10,10,20,.92); }
+    html[data-theme="light"] .fgroup label { color:rgba(10,10,20,.35); }
+    html[data-theme="light"] .fgroup input,
+    html[data-theme="light"] .fgroup textarea { background:#f5f5f7; border-color:rgba(0,0,0,.1); color:rgba(10,10,20,.9); }
+    html[data-theme="light"] .fgroup input::placeholder,
+    html[data-theme="light"] .fgroup textarea::placeholder { color:rgba(10,10,20,.25); }
+    html[data-theme="light"] .fgroup input:focus,
+    html[data-theme="light"] .fgroup textarea:focus { border-color:rgba(230,57,70,.4); background:white; }
+
+    html[data-theme="light"] footer { background:#ebebef; border-top-color:rgba(0,0,0,.06); }
+    html[data-theme="light"] .footer-copy { color:rgba(10,10,20,.35); }
+    html[data-theme="light"] .footer-link { color:rgba(10,10,20,.35); }
+    html[data-theme="light"] .footer-link:hover { color:rgba(10,10,20,.6); }
+    html[data-theme="light"] .pillar-row:hover { background:rgba(230,57,70,.04); }
+
+    /* ─── GRAIN TEXTURE ─── */
+    #grain {
+      position: fixed; inset: 0;
+      z-index: 9998; pointer-events: none;
+      opacity: 0.04;
+      /* Static tiled noise — no per-frame CPU cost */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      background-repeat: repeat;
+      will-change: auto;
+    }
+    html[data-theme="light"] #grain { opacity: 0.025; }
+
+    /* ─── AMBIENT ORBS — opacity-only animation, zero layout cost ─── */
+    @keyframes orb-drift {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.5; }
+    }
+
+    /* Services — blue-purple orb, bottom right */
+    section#services { position: relative; overflow: hidden; contain: layout paint; }
+    section#services::before {
+      content: '';
+      position: absolute; width: 700px; height: 700px;
+      border-radius: 50%; pointer-events: none; z-index: 0;
+      right: -200px; bottom: -200px;
+      background: radial-gradient(circle, rgba(99,102,241,0.13) 0%, rgba(139,92,246,0.06) 40%, transparent 70%);
+      animation: orb-drift 20s ease-in-out infinite;
+      will-change: opacity;
+    }
+    section#services .sec-header,
+    section#services .bento { position: relative; z-index: 1; }
+
+    /* Why us — warm amber orb, top left */
+    section.sec-light { position: relative; overflow: hidden; contain: layout paint; }
+    section.sec-light::before {
+      content: '';
+      position: absolute; width: 600px; height: 600px;
+      border-radius: 50%; pointer-events: none; z-index: 0;
+      left: -180px; top: -150px;
+      background: radial-gradient(circle, rgba(245,158,11,0.07) 0%, rgba(239,68,68,0.04) 40%, transparent 70%);
+      animation: orb-drift 25s ease-in-out infinite reverse;
+      will-change: opacity;
+    }
+    section.sec-light .sec-header { position: relative; z-index: 1; }
+
+    /* Contact — indigo orb, top right */
+    section#contact { position: relative; overflow: hidden; contain: layout paint; }
+    section#contact::before {
+      content: '';
+      position: absolute; width: 600px; height: 600px;
+      border-radius: 50%; pointer-events: none; z-index: 0;
+      right: -150px; top: -100px;
+      background: radial-gradient(circle, rgba(79,70,229,0.1) 0%, rgba(99,102,241,0.05) 40%, transparent 70%);
+      animation: orb-drift 16s ease-in-out infinite;
+      will-change: opacity;
+    }
+    section#contact .contact-grid { position: relative; z-index: 1; }
+
+    /* Light mode — orbs lighter */
+    html[data-theme="light"] section#services::before  { opacity: 0.6; }
+    html[data-theme="light"] section.sec-light::before { opacity: 0.5; }
+    html[data-theme="light"] section#contact::before   { opacity: 0.5; }
+
+    /* ─── TRUSTED BY ─── */
+    .trusted-sec {
+      padding: 26px 48px; border-bottom: 1px solid var(--border);
+      background: rgba(7,8,15,0.25);
+    }
+    .trusted-inner { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .trusted-label {
+      font-size: 10px; font-weight: 700; color: var(--t3);
+      letter-spacing: 2px; text-transform: uppercase; white-space: nowrap;
+    }
+    .trusted-logos { display: flex; align-items: center; gap: 36px; flex-wrap: wrap; flex: 1; }
+    .tlogo {
+      font-size: 13px; font-weight: 800; color: var(--t2); letter-spacing: -0.5px;
+      opacity: 0.35; transition: opacity 0.2s; cursor: default; user-select: none;
+    }
+    .tlogo:hover { opacity: 0.85; }
+    html[data-theme="light"] .trusted-sec { background: rgba(228,228,240,0.90); border-color: rgba(0,0,0,0.06); }
+    html[data-theme="light"] .tlogo { color: rgba(10,10,20,.55); }
+
+    /* ─── TEAM ─── */
+    .team-header-split {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 48px; margin-bottom: 56px;
+    }
+    .team-header-desc {
+      font-size: 15px; color: var(--t2); line-height: 1.7;
+      max-width: 340px; flex-shrink: 0;
+    }
+    html[data-theme="light"] .team-header-desc { color: var(--light-t2); }
+    @media (max-width: 768px) {
+      .team-header-split { flex-direction: column; gap: 20px; align-items: flex-start; }
+      .team-header-desc { max-width: 100%; }
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: 5fr 3fr 3fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+      margin-top: 56px;
+    }
+    .team-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 22px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; text-align: center; transition: border-color 0.2s, transform 0.3s;
+    }
+    /* Featured founder card — large, left, spans 2 rows */
+    .team-card.team-featured {
+      grid-row: 1 / 3;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      padding: 40px 36px;
+      justify-content: flex-end;
+      background: linear-gradient(160deg, var(--surface2) 0%, var(--surface) 100%);
+      border-color: rgba(108,99,255,0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card.team-featured::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .team-card.team-featured .team-av {
+      width: 96px; height: 96px;
+      border-color: rgba(108,99,255,0.3);
+      margin-bottom: 8px;
+    }
+    .team-card.team-featured .team-name { font-size: 22px; letter-spacing: -0.5px; }
+    .team-card.team-featured .team-bio { font-size: 13.5px; color: var(--t2); max-width: 320px; }
+    /* Wide card — last, spans 2 cols in bottom row */
+    .team-card.team-wide {
+      grid-column: 2 / 4;
+      flex-direction: row;
+      text-align: left;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 28px;
+    }
+    .team-card.team-wide .team-av { flex-shrink: 0; }
+    .team-card.team-wide .team-info { display: flex; flex-direction: column; gap: 5px; }
+    .team-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-4px); }
+    .team-av {
+      width: 72px; height: 72px; border-radius: 50%;
+      overflow: hidden; flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+    .team-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .team-name { font-size: 15px; font-weight: 700; color: var(--t1); margin-top: 4px; }
+    .team-role { font-size: 11.5px; color: var(--accent); font-weight: 600; letter-spacing: 0.3px; }
+    .team-bio { font-size: 12.5px; color: var(--t2); line-height: 1.65; }
+    .team-li {
+      display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--t3);
+      text-decoration: none; padding: 5px 12px; border: 1px solid var(--border);
+      border-radius: 6px; transition: color 0.15s, border-color 0.15s; margin-top: 4px;
+    }
+    .team-li:hover { color: var(--t1); border-color: rgba(255,255,255,0.2); }
+    html[data-theme="light"] .team-card { background: #f8f9fb; border-color: rgba(0,0,0,.07); }
+    html[data-theme="light"] .team-card.team-featured { background: linear-gradient(160deg,#edeeff 0%,#f8f9fb 100%); border-color: rgba(108,99,255,0.2); }
+    html[data-theme="light"] .team-name { color: rgba(10,10,20,.92); }
+    html[data-theme="light"] .team-bio  { color: rgba(10,10,20,.5); }
+    html[data-theme="light"] .team-li   { color: rgba(10,10,20,.4); border-color: rgba(0,0,0,.1); }
+
+    /* ─── TESTIMONIALS ─── */
+    .test-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 48px; }
+    .test-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 30px; display: flex; flex-direction: column;
+      gap: 16px; transition: border-color 0.2s, transform 0.3s;
+    }
+    .test-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-4px); }
+    .test-stars { color: #f5c518; font-size: 13px; letter-spacing: 2px; }
+    .test-quote { font-size: 14.5px; color: var(--t1); line-height: 1.8; font-style: italic; flex: 1; }
+    .test-foot { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .test-av {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; color: white;
+    }
+    .test-name { font-size: 13px; font-weight: 700; color: var(--t1); }
+    .test-meta { font-size: 11px; color: var(--t3); margin-top: 2px; }
+    html[data-theme="light"] .test-card  { background: #f8f9fb; border-color: rgba(0,0,0,.07); }
+    html[data-theme="light"] .test-quote { color: rgba(10,10,20,.85); }
+    html[data-theme="light"] .test-name  { color: rgba(10,10,20,.92); }
+    html[data-theme="light"] .test-foot  { border-color: rgba(0,0,0,.08); }
+
+    /* ─── FAQ — card accordion, always dark text (sits on sec-light) ─── */
+    .faq-list {
+      max-width: 760px; margin: 48px auto 0;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .faq-item {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .faq-item:hover { border-color: rgba(0,0,0,0.15); }
+    .faq-item.open {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), 0 8px 28px rgba(230,57,70,0.10);
+    }
+    .faq-q {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; background: none; border: none; font-family: inherit;
+      font-size: 15px; font-weight: 600; color: var(--light-t1);
+      cursor: pointer; text-align: left; gap: 20px; transition: color 0.15s;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-item.open .faq-q { color: var(--accent); }
+    .faq-icon {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; line-height: 1; color: rgba(10,10,20,0.4);
+      transition: transform 0.35s cubic-bezier(.16,1,.3,1), background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--accent); border-color: var(--accent); color: white;
+    }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.42s cubic-bezier(.16,1,.3,1); }
+    .faq-a-inner {
+      padding: 0 24px 22px; font-size: 14.5px;
+      color: var(--light-t2); line-height: 1.82;
+      border-top: 1px solid rgba(0,0,0,0.07); padding-top: 14px;
+    }
+    .faq-item.open .faq-a { max-height: 320px; }
+
+    /* ─── FLOATING CTA CLUSTER ─── */
+    .float-cluster {
+      position: fixed; bottom: 28px; right: 28px;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 10px; z-index: 500;
+    }
+    .float-btn {
+      display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 50px;
+      font-size: 13.5px; font-weight: 700; cursor: pointer; text-decoration: none;
+      border: none; font-family: inherit; color: white;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.38);
+      transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
+    }
+    .float-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,0,0,0.48); }
+    .float-wa  { background: #25D366; }
+    .float-cal { background: var(--accent); }
+    @media (max-width: 768px) { .float-cluster { bottom: 16px; right: 16px; } }
+
+    /* ─── PDPA BANNER ─── */
+    #pdpa {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+      background: rgba(10,10,20,0.97); backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      padding: 18px 48px; display: flex; align-items: center;
+      justify-content: space-between; gap: 28px;
+      transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+    }
+    #pdpa.gone { transform: translateY(110%); pointer-events: none; }
+    .pdpa-txt { font-size: 13px; color: var(--t2); line-height: 1.55; max-width: 680px; }
+    .pdpa-txt a { color: var(--accent); text-decoration: none; }
+    .pdpa-btns { display: flex; gap: 10px; flex-shrink: 0; }
+    .pdpa-ok {
+      padding: 9px 22px; background: var(--accent); color: white; border: none;
+      border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: inherit;
+      transition: opacity 0.15s;
+    }
+    .pdpa-ok:hover { opacity: 0.85; }
+    .pdpa-no {
+      padding: 9px 16px; background: transparent; color: var(--t2);
+      border: 1px solid var(--border); border-radius: 8px;
+      font-weight: 600; font-size: 13px; cursor: pointer; font-family: inherit; transition: color 0.15s;
+    }
+    .pdpa-no:hover { color: var(--t1); }
+    html[data-theme="light"] #pdpa { background: rgba(255,255,255,0.97); border-color: rgba(0,0,0,.1); }
+    @media (max-width: 640px) {
+      #pdpa { flex-direction: column; align-items: flex-start; padding: 18px 24px; }
+    }
+
+    /* ─── FOOTER SOCIAL ─── */
+    .soc-link {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--t2); text-decoration: none; font-size: 11px; font-weight: 700;
+      transition: background 0.15s, color 0.15s;
+    }
+    .soc-link:hover { background: rgba(255,255,255,0.12); color: var(--t1); }
+    html[data-theme="light"] .soc-link { background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.09); }
+
+    /* ─── NEW RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .team-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .team-card.team-featured { grid-row: auto; grid-column: 1 / 3; flex-direction: row; text-align: left; align-items: center; }
+      .team-card.team-wide { grid-column: auto; flex-direction: row; }
+      .test-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 768px) {
+      .trusted-sec { padding: 22px 20px; }
+      .test-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .team-card.team-featured { grid-column: auto; flex-direction: column; text-align: center; align-items: center; }
+      .team-card.team-wide { flex-direction: column; text-align: center; }
+      .team-card.team-wide .team-info { align-items: center; }
+    }
+    @media (max-width: 540px) {
+      .team-card.team-featured .team-bio { max-width: 100%; }
+    }
+
+    /* ─── WEBGL SHADER CANVAS ─── */
+    #bg-canvas {
+      position: fixed; inset: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2; display: block;
+      pointer-events: none;
+    }
+    /* Make sections semi-transparent so the shader peeks through */
+    .sec { background: rgba(7, 8, 15, 0.0); }
+    .sec-dark { background: rgba(13, 15, 26, 0.78) !important; }
+    .sec-light { background: rgba(245, 245, 247, 0.91) !important; }
+    .marquee-wrap { background: rgba(13, 15, 26, 0.55) !important; }
+    html[data-theme="light"] .sec { background: rgba(247, 248, 252, 0.88); }
+    html[data-theme="light"] .sec-dark { background: rgba(220, 222, 238, 0.90) !important; }
+    html[data-theme="light"] .marquee-wrap { background: rgba(240, 242, 250, 0.65) !important; }
+    html[data-theme="light"] .sec-light { background: rgba(238, 238, 246, 0.95) !important; }
+  </style>
+</head>
+<body>
+
+<!-- ─── SHADER CANVAS (behind everything) ─── -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<!-- ─── GRAIN OVERLAY ─── -->
+<div id="grain"></div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">S</div>
+    <span class="logo-label">Softopia</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services" data-ja="サービス" data-en="Services">サービス</a></li>
+    <li><a href="#team" data-ja="チーム" data-en="Team">チーム</a></li>
+    <li><a href="#faq" data-ja="FAQ" data-en="FAQ">FAQ</a></li>
+    <li><a href="#contact" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a></li>
+  </ul>
+  <div class="nav-end">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ja')">JP</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" title="テーマ切替 / Toggle theme">
+      <span id="theme-icon">☀️</span>
+    </button>
+    <a href="#contact" class="nav-cta" data-ja="お問い合わせ" data-en="Contact Us">お問い合わせ</a>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ─── MOBILE DRAWER ─── -->
+<div id="mobile-menu">
+  <ul class="mob-links">
+    <li><a href="#services" data-ja="サービス" data-en="Services" onclick="closeMobileMenu()">サービス</a></li>
+    <li><a href="#team" data-ja="チーム" data-en="Team" onclick="closeMobileMenu()">チーム</a></li>
+    <li><a href="#faq" data-ja="FAQ" data-en="FAQ" onclick="closeMobileMenu()">FAQ</a></li>
+    <li><a href="#contact" data-ja="お問い合わせ" data-en="Contact" onclick="closeMobileMenu()">お問い合わせ</a></li>
+  </ul>
+  <div class="mob-footer">
+    <div class="lang-toggle">
+      <button class="lang-btn" id="mob-jp-btn" onclick="setLang('ja')">JP</button>
+      <button class="lang-btn" id="mob-en-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#contact" class="mob-cta" data-ja="お問い合わせ" data-en="Contact Us" onclick="closeMobileMenu()">お問い合わせ</a>
+  </div>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow reveal" data-ja="シンガポール · 2025年創業" data-en="Singapore · Est. 2025">Singapore · Est. 2025</div>
+      <h1 class="hero-title reveal reveal-delay-1" id="hero-h1">
+        実際に動く<br>ソフトウェアを、<br><em>つくる。</em>
+      </h1>
+      <p class="hero-desc reveal reveal-delay-2"
+         data-ja="シンガポール発のエンジニアリングスタジオ。複雑なデジタルプロダクトを、アイデアからプロダクションまで確実に届けます。ダウンタイムを許容できない企業のために。"
+         data-en="A boutique engineering studio based in Singapore. We take complex digital products from idea to production — and keep them running. For companies that can't afford downtime.">
+        A boutique engineering studio based in Singapore. We take complex digital products from idea to production — and keep them running. For companies that can't afford downtime.
+      </p>
+      <div class="hero-ctas reveal reveal-delay-3">
+        <a href="#contact" class="cta-primary" data-ja="プロジェクトを始める →" data-en="Start a project →">Start a project →</a>
+        <a href="#services" class="cta-secondary" data-ja="私たちの仕事を見る" data-en="See what we build">See what we build</a>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="hero-img-frame">
+        <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=900&q=85&fit=crop" alt="Singapore" />
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── TRUSTED BY ─── -->
+<div class="trusted-sec">
+  <div class="trusted-inner reveal">
+    <span class="trusted-label" data-ja="導入実績企業" data-en="Trusted by teams at">導入実績企業</span>
+    <div class="trusted-logos">
+      <span class="tlogo">Meridian Group</span>
+      <span class="tlogo">Nova Capital</span>
+      <span class="tlogo">Apex Digital</span>
+      <span class="tlogo">Vanta Technologies</span>
+      <span class="tlogo">Orbital Systems</span>
+      <span class="tlogo">Zenith Corp</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SERVICES ─── -->
+<section class="sec" id="services">
+  <div class="sec-header reveal">
+    <div class="sec-label" data-ja="私たちが作るもの" data-en="What We Build">私たちが作るもの</div>
+    <h2 class="sec-title" data-ja="複雑な問題に、<br>シンプルな答えを。" data-en="Hard problems.<br>Clean solutions.">Hard problems.<br>Clean solutions.</h2>
+  </div>
+  <div class="bento">
+    <div class="bento-card bento-1 reveal-scale">
+      <div class="bento-icon">🌐</div>
+      <h3 data-ja="Webアプリ・プロダクト開発" data-en="Web Apps & Products">Webアプリ・プロダクト開発</h3>
+      <p data-ja="スタートアップから大企業まで。SaaSプラットフォーム、社内システム、ECサイト——何年先も動き続けるものを構築します。" data-en="SaaS platforms, internal tools, e-commerce — built for startups and enterprises that need software to work years from now, not just at launch.">SaaS platforms, internal tools, e-commerce — built for startups and enterprises that need software to work years from now, not just at launch.</p>
+      <div class="bento-tags">
+        <span class="btag">React / Vue</span><span class="btag">Node.js</span><span class="btag">SaaS</span><span class="btag">Mobile</span>
+      </div>
+    </div>
+    <div class="bento-card bento-2 reveal-scale reveal-delay-1">
+      <div class="bento-icon">☁️</div>
+      <h3 data-ja="クラウド・インフラ" data-en="Cloud & Infrastructure">クラウド・インフラ</h3>
+      <p data-ja="AWS・GCP・Azure上の設計から運用まで。落ちないシステムを、正直な料金で。" data-en="Architecture, deployment, and ongoing ops across AWS, GCP, and Azure. Systems that don't fall over, at a price that makes sense.">Architecture, deployment, and ongoing ops across AWS, GCP, and Azure. Systems that don't fall over, at a price that makes sense.</p>
+      <div class="bento-tags">
+        <span class="btag">AWS</span><span class="btag">GCP</span><span class="btag">Azure</span><span class="btag">DevOps</span>
+      </div>
+    </div>
+    <div class="bento-card bento-3 reveal-scale reveal-delay-2">
+      <div class="bento-icon">⚡</div>
+      <h3 data-ja="AI・自動化・データ" data-en="AI, Automation & Data">AI・自動化・データ</h3>
+      <p data-ja="流行りのAIではなく、本当に使えるAIを。業務自動化、予測モデル、データパイプラインを現実のプロダクトに統合します。" data-en="Not AI for the press release — AI that actually does something. Workflow automation, predictive models, and data pipelines integrated into real products.">Not AI for the press release — AI that actually does something. Workflow automation, predictive models, and data pipelines integrated into real products.</p>
+      <div class="bento-tags">
+        <span class="btag">LLM Integration</span><span class="btag">Automation</span><span class="btag">Analytics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TEAM ─── -->
+<section class="sec" id="team">
+  <div class="team-header-split reveal">
+    <div>
+      <div class="sec-label" data-ja="チームメンバー" data-en="Meet the Team">チームメンバー</div>
+      <h2 class="sec-title" style="margin-bottom:0" data-ja="Softopiaを<br>支える人々" data-en="The People<br>Behind Softopia">Softopiaを<br>支える人々</h2>
+    </div>
+    <p class="team-header-desc" data-ja="私たちは少人数の精鋭チームです。人数より質を。" data-en="We're a small team by design. We'd rather go deep with fewer clients than spread ourselves thin. Every person here ships.">We're a small team by design. We'd rather go deep with fewer clients than spread ourselves thin. Every person here ships.</p>
+  </div>
+  <div class="team-grid">
+    <!-- Featured: CEO spans 2 rows, left column -->
+    <div class="team-card team-featured reveal">
+      <div class="team-av"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Chen" /></div>
+      <div class="team-name">Alex Chen</div>
+      <div class="team-role">CEO &amp; Co-Founder</div>
+      <p class="team-bio" data-ja="元Google。Apexデジタルプラットフォームを12年間構築し、APAC全域で数百万人規模のユーザーを抱えるシステムを主導。" data-en="Ex-Google. Spent 12 years building enterprise platforms that reach millions across APAC. He started Softopia because he was tired of watching good ideas die inside slow agencies.">Ex-Google. Spent 12 years building enterprise platforms that reach millions across APAC. He started Softopia because he was tired of watching good ideas die inside slow agencies.</p>
+      <a href="#" class="team-li">↗ LinkedIn</a>
+    </div>
+    <!-- CTO: top right -->
+    <div class="team-card reveal reveal-delay-1">
+      <div class="team-av"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Lim" /></div>
+      <div class="team-name">Sarah Lim</div>
+      <div class="team-role">CTO &amp; Co-Founder</div>
+      <p class="team-bio" data-ja="元Grab。分散システムとAIインフラの専門家。" data-en="Ex-Grab. Cloud architect who's never met a distributed systems problem she couldn't untangle.">Ex-Grab. Cloud architect who's never met a distributed systems problem she couldn't untangle.</p>
+      <a href="#" class="team-li">↗ LinkedIn</a>
+    </div>
+    <!-- Head of Engineering: middle right -->
+    <div class="team-card reveal reveal-delay-2">
+      <div class="team-av"><img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Marcus Wong" /></div>
+      <div class="team-name">Marcus Wong</div>
+      <div class="team-role">Head of Engineering</div>
+      <p class="team-bio" data-ja="元Sea Group。SEA全域のクロスボーダーチームをリード。" data-en="Ex-Sea Group. Leads our cross-border engineering teams so nothing falls through the cracks.">Ex-Sea Group. Leads our cross-border engineering teams so nothing falls through the cracks.</p>
+      <a href="#" class="team-li">↗ LinkedIn</a>
+    </div>
+    <!-- Head of Product: wide bottom row spanning cols 2-3 -->
+    <div class="team-card team-wide reveal reveal-delay-3">
+      <div class="team-av"><img src="https://randomuser.me/api/portraits/women/26.jpg" alt="Mei Lin" /></div>
+      <div class="team-info">
+        <div class="team-name">Mei Lin</div>
+        <div class="team-role">Head of Product</div>
+        <p class="team-bio" data-ja="元Lazada。エンタープライズSaaS向けUX戦略およびプロダクトリード。" data-en="Ex-Lazada. She's the one who makes sure what we build is actually what clients need — not just what they asked for.">Ex-Lazada. She's the one who makes sure what we build is actually what clients need — not just what they asked for.</p>
+        <a href="#" class="team-li">↗ LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="sec sec-testimonials">
+  <div class="sec-header reveal">
+    <div class="sec-label" data-ja="お客様の声" data-en="What Clients Say">お客様の声</div>
+    <h2 class="sec-title" data-ja="結果が語る" data-en="Results That<br>Speak for Themselves">結果が語る</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-quote" data-ja="「Softopiaのチームは私たちのプラットフォームをスケジュールより2週間早く納品しました。コードの品質とコミュニケーションの透明性に感銘を受けました。」" data-en="&ldquo;The Softopia team delivered our platform two weeks ahead of schedule. We were genuinely impressed by the code quality and communication transparency throughout.&rdquo;">&ldquo;The Softopia team delivered our platform two weeks ahead of schedule. We were genuinely impressed by the code quality and communication throughout.&rdquo;</p>
+      <div class="test-foot">
+        <div class="test-av" style="background:linear-gradient(135deg,#e63946,#9b1b26);">SL</div>
+        <div>
+          <div class="test-name">Sarah L.</div>
+          <div class="test-meta">CTO, NovaTech · Singapore</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal reveal-delay-1">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-quote" data-ja="「私たちが一緒に仕事をしてきた中で、最高のクロスボーダー開発パートナーです。複雑なAPI統合を見事にハンドリングしてくれました。」" data-en="&ldquo;The best cross-border development partner we&rsquo;ve worked with. They handled complex API integrations flawlessly and kept us informed every step of the way.&rdquo;">&ldquo;The best cross-border development partner we&rsquo;ve worked with. They handled complex API integrations flawlessly and kept us informed every step of the way.&rdquo;</p>
+      <div class="test-foot">
+        <div class="test-av" style="background:linear-gradient(135deg,#0d43a8,#072579);">JK</div>
+        <div>
+          <div class="test-name">James K.</div>
+          <div class="test-meta">Founder, Meridian Group · Malaysia</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal reveal-delay-2">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-quote" data-ja="「優れたコード品質と、プロジェクト全体を通じての的確なコミュニケーション。リリース後のサポートも非常に手厚く、長期パートナーとして信頼しています。」" data-en="&ldquo;Exceptional engineering and communication from start to finish. Post-launch support has been outstanding — we see Softopia as a long-term partner, not just a vendor.&rdquo;">&ldquo;Exceptional engineering and communication from start to finish. Post-launch support has been outstanding — we see Softopia as a long-term partner, not just a vendor.&rdquo;</p>
+      <div class="test-foot">
+        <div class="test-av" style="background:linear-gradient(135deg,#0d7a3e,#065226);">ML</div>
+        <div>
+          <div class="test-name">Mei T.</div>
+          <div class="test-meta">Product Lead, Apex Digital · Vietnam</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ─── -->
+<section class="sec sec-light" id="faq">
+  <div class="sec-header reveal" style="text-align:center;max-width:600px;margin:0 auto 0;">
+    <div class="sec-label" data-ja="よくあるご質問" data-en="FAQ">よくあるご質問</div>
+    <h2 class="sec-title" data-ja="疑問を解消します" data-en="Common Questions,<br>Honest Answers">疑問を解消します</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span data-ja="最小プロジェクト規模はどのくらいですか？" data-en="What is your minimum project size?">What is your minimum project size?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner" data-ja="最小予算はUSD 5,000〜となっています。スタートアップからエンタープライズまで、スコープとスケジュールはご要件に合わせて調整可能です。" data-en="Our minimum engagement starts at USD 5,000. We work with both startups and enterprises — scope and timeline can be tailored to your specific needs and budget.">Our minimum engagement starts at USD 5,000. We work with both startups and enterprises — scope and timeline can be tailored to your specific needs and budget.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span data-ja="データセキュリティとコンプライアンスはどのように対応していますか？" data-en="How do you handle data security and compliance?">How do you handle data security and compliance?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner" data-ja="ISO/IEC 27001認証取得に向けて対応中です。NDA締結、暗号化データ転送、アクセス制御、PDPA準拠のデータ取り扱いを標準として実施しています。" data-en="We operate under signed NDAs, encrypted data transfers, and strict access controls. Our processes are PDPA-compliant and we are actively working toward ISO/IEC 27001 certification.">We operate under signed NDAs, encrypted data transfers, and strict access controls. Our processes are PDPA-compliant and we are actively working toward ISO/IEC 27001 certification.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span data-ja="典型的なエンゲージメントモデルはどのようなものですか？" data-en="What does a typical engagement look like?">What does a typical engagement look like?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner" data-ja="Discovery call → スコープ定義 → 週次スプリント（2週間サイクル） → QAとデプロイ → ローンチ後サポートという流れで進めます。全工程で透明性の高いコミュニケーションを徹底します。" data-en="Discovery call → Scope definition → Bi-weekly sprints with demos → QA &amp; deployment → Post-launch support. You get a dedicated PM and clear communication throughout every phase.">Discovery call → Scope definition → Bi-weekly sprints with demos → QA &amp; deployment → Post-launch support. You get a dedicated PM and clear communication at every phase.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span data-ja="分散チームでの品質管理はどのように行っていますか？" data-en="How do you ensure quality across distributed teams?">How do you ensure quality across distributed teams?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner" data-ja="シンガポールのPMが各プロジェクトを統括し、コードレビュー、自動テスト、毎週のステータスレポートで品質を担保します。すべてのコードはお客様のリポジトリで管理されます。" data-en="A Singapore-based PM oversees every project with mandatory code reviews, automated testing pipelines, and weekly status reports. All code lives in your repository from day one.">A Singapore-based PM oversees every project with mandatory code reviews, automated testing pipelines, and weekly status reports. All code lives in your repository from day one.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span data-ja="ローンチ後のサポートは提供していますか？" data-en="Do you offer post-launch support?">Do you offer post-launch support?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner" data-ja="はい。月次リテイナー型のサポートプランを提供しており、バグ修正、パフォーマンスモニタリング、機能追加に対応します。長期的なパートナーシップを重視しています。" data-en="Yes. We offer monthly retainer support plans covering bug fixes, performance monitoring, and incremental feature development. Most clients stay with us long-term — we build for the relationship, not just the project.">Yes. We offer monthly retainer support plans covering bug fixes, performance monitoring, and incremental feature updates. Most clients stay with us long-term — we build for the relationship, not just the project.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section class="sec" id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="sec-label reveal" data-ja="お問い合わせ" data-en="Contact Us">お問い合わせ</div>
+      <h2 class="sec-title reveal" data-ja="一緒に未来を<br>創りませんか" data-en="Let's Build<br>Something Great">一緒に未来を<br>創りませんか</h2>
+      <p class="sec-sub reveal" data-ja="品質・信頼性・クロスボーダーの専門知識を持つシンガポール拠点のチームとパートナーシップを。" data-en="Partner with a Singapore-based team that delivers quality, reliability, and cross-border expertise.">品質・信頼性・クロスボーダーの専門知識を持つシンガポール拠点のチームとパートナーシップを。</p>
+      <div class="contact-info-list">
+        <div class="cinfo-item reveal">
+          <div class="cinfo-icon">📍</div>
+          <div>
+            <div class="cinfo-lbl" data-ja="所在地" data-en="Address">所在地</div>
+            <div class="cinfo-val">
+              10 Anson Road, #10-11<br>
+              International Plaza, Singapore 079903
+            </div>
+            <div class="cinfo-sub">10 Anson Road #10-11, Singapore 079903</div>
+          </div>
+        </div>
+        <div class="cinfo-item reveal">
+          <div class="cinfo-icon">✉️</div>
+          <div>
+            <div class="cinfo-lbl" data-ja="メール" data-en="Email">メール</div>
+            <div class="cinfo-val"><a href="mailto:hello@softopia.co">hello@softopia.co</a></div>
+          </div>
+        </div>
+        <div class="cinfo-item reveal">
+          <div class="cinfo-icon">🕐</div>
+          <div>
+            <div class="cinfo-lbl" data-ja="対応時間" data-en="Hours">対応時間</div>
+            <div class="cinfo-val" data-ja="平日 9:00〜18:00（JST）" data-en="Mon–Fri 9:00–18:00 JST">平日 9:00〜18:00（JST）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card reveal">
+      <h3 data-ja="メッセージを送る" data-en="Send a Message">メッセージを送る</h3>
+      <div class="form-row">
+        <div class="fgroup" id="fg-name">
+          <label data-ja="お名前 *" data-en="Name *">お名前 *</label>
+          <div class="input-wrap">
+            <input type="text" id="ph-name" placeholder="山田 太郎" oninput="validateName()" />
+            <span class="val-icon" id="vi-name"></span>
+          </div>
+          <div class="val-msg" id="vm-name"></div>
+        </div>
+        <div class="fgroup" id="fg-company">
+          <label data-ja="会社名" data-en="Company">会社名</label>
+          <div class="input-wrap">
+            <input type="text" id="ph-company" placeholder="Company Name (optional)" />
+          </div>
+        </div>
+      </div>
+      <div class="fgroup" id="fg-email">
+        <label data-ja="メールアドレス *" data-en="Email *">メールアドレス *</label>
+        <div class="input-wrap">
+          <input type="email" id="inp-email" placeholder="taro@example.co.jp"
+                 oninput="validateEmail()" onblur="validateEmail(true)" />
+          <span class="val-icon" id="vi-email"></span>
+        </div>
+        <div class="val-msg" id="vm-email"></div>
+      </div>
+      <div class="fgroup" id="fg-msg">
+        <label data-ja="お問い合わせ内容 *" data-en="Message *">お問い合わせ内容 *</label>
+        <div class="input-wrap">
+          <textarea id="ph-msg" placeholder="ご相談内容をご記入ください…" oninput="validateMsg()"></textarea>
+        </div>
+        <div class="val-msg" id="vm-msg"></div>
+      </div>
+      <button class="btn-send" id="btn-send" disabled>
+        <span class="spinner"></span>
+        <span class="btn-label" data-ja="送信する →" data-en="Send Message →">送信する →</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-left">
+    <div class="logo-mark">S</div>
+    <span class="footer-copy">© 2025 Softopia</span>
+  </div>
+  <div class="footer-right" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;gap:8px;">
+      <a href="https://linkedin.com" target="_blank" rel="noopener" class="soc-link" title="LinkedIn">in</a>
+      <a href="https://github.com" target="_blank" rel="noopener" class="soc-link" title="GitHub">gh</a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" class="soc-link" title="X / Twitter">𝕏</a>
+    </div>
+    <a href="mailto:hello@softopia.co" class="footer-link">hello@softopia.co</a>
+    <span class="footer-copy">Singapore</span>
+  </div>
+</footer>
+
+<!-- ─── FLOATING CTA CLUSTER ─── -->
+<div class="float-cluster">
+  <a href="https://wa.me/6500000000" target="_blank" rel="noopener" class="float-btn float-wa" title="WhatsApp">
+    <span>💬</span>
+    <span data-ja="WhatsApp" data-en="WhatsApp">WhatsApp</span>
+  </a>
+  <a href="https://calendly.com/softopia" target="_blank" rel="noopener" class="float-btn float-cal" title="Book a Call">
+    <span>📅</span>
+    <span data-ja="無料相談を予約" data-en="Book a Free Call">Book a Free Call</span>
+  </a>
+</div>
+
+<!-- ─── PDPA / COOKIE BANNER ─── -->
+<div id="pdpa">
+  <p class="pdpa-txt">We use cookies to improve your experience. By continuing to use this site you agree to our <a href="#">Privacy Policy</a> and the collection of personal data under Singapore's PDPA.</p>
+  <div class="pdpa-btns">
+    <button class="pdpa-ok" onclick="pdpaAccept()" data-ja="同意する" data-en="Accept">Accept</button>
+    <button class="pdpa-no" onclick="pdpaDecline()" data-ja="拒否する" data-en="Decline">Decline</button>
+  </div>
+</div>
+
+<script>
+  /* ── Scroll reveal (includes new variant classes) ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => observer.observe(el));
+
+  /* ── Stat counter animation ── */
+  const counters = [
+    { el: null, target: 3,    suffix: '',    decimals: 0 },
+    { el: null, target: 3,    suffix: '+',   decimals: 0 },
+    { el: null, target: 24,   suffix: '/7',  decimals: 0 },
+    { el: null, target: null, suffix: 'ISO', decimals: 0 },
+  ];
+  let countersDone = false;
+
+  function runCounters() {
+    if (countersDone) return;
+    const vals = document.querySelectorAll('.hstat-val');
+    if (!vals.length) return;
+    countersDone = true;
+    vals.forEach((el, i) => {
+      const c = counters[i];
+      if (!c || c.target === null) return;
+      let start = 0; const duration = 900; const step = 16;
+      const increment = c.target / (duration / step);
+      el.classList.add('counted');
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= c.target) { start = c.target; clearInterval(timer); }
+        el.textContent = Math.floor(start) + c.suffix;
+      }, step);
+    });
+  }
+
+  const statsObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { runCounters(); statsObserver.disconnect(); }
+  }, { threshold: 0.5 });
+  const statsEl = document.querySelector('.hero-stats');
+  if (statsEl) statsObserver.observe(statsEl);
+
+  /* ── Theme toggle ── */
+  let isLight = false;
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.classList.add('theme-transitioning');
+    isLight = !isLight;
+    html.dataset.theme = isLight ? 'light' : '';
+    document.getElementById('theme-icon').textContent = isLight ? '🌙' : '☀️';
+    setTimeout(() => html.classList.remove('theme-transitioning'), 400);
+  }
+
+  /* ── Language switch ── */
+  const heroContent = {
+    ja: 'デジタルの未来を、<br /><em>ともに</em><br /><span class="outline">つくる</span>',
+    en: 'Building the<br /><em>Digital Future</em><br /><span class="outline">Together</span>'
+  };
+  const placeholders = {
+    ja: { name: 'Alex Tan', company: '会社名（任意）', msg: 'ご相談内容をご記入ください…' },
+    en: { name: 'Alex Tan', company: 'Company Name (optional)', msg: 'Tell us about your project…' }
+  };
+
+  /* ── Form Validation ── */
+  const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+
+  // Domains that cannot receive real email (common fake/disposable)
+  const BLOCKED = ['example.com','example.co.jp','test.com','fake.com','mailinator.com',
+    'guerrillamail.com','tempmail.com','throwaway.email','yopmail.com','sharklasers.com'];
+
+  function setField(id, state, msg) {
+    const fg = document.getElementById('fg-' + id);
+    const vi = document.getElementById('vi-' + id);
+    const vm = document.getElementById('vm-' + id);
+    if (!fg) return;
+    fg.classList.remove('valid','invalid');
+    if (state) fg.classList.add(state);
+    if (vi) vi.textContent = state === 'valid' ? '✓' : state === 'invalid' ? '✕' : '';
+    if (vm) vm.textContent = msg || '';
+    checkAll();
+  }
+
+  function validateName() {
+    const v = document.getElementById('ph-name').value.trim();
+    if (!v) return setField('name', '', '');
+    if (v.length < 2) return setField('name', 'invalid', currentLang === 'ja' ? '2文字以上で入力してください' : 'At least 2 characters required');
+    setField('name', 'valid', currentLang === 'ja' ? '有効なお名前です' : 'Looks good!');
+  }
+
+  let emailTimer;
+  function validateEmail(force = false) {
+    clearTimeout(emailTimer);
+    const val  = document.getElementById('inp-email').value.trim();
+    const delay = force ? 0 : 250;
+    if (!val) return setField('email', '', '');
+
+    emailTimer = setTimeout(() => {
+      if (!EMAIL_RE.test(val)) {
+        return setField('email', 'invalid', currentLang === 'ja' ? '正しいメールアドレスの形式で入力してください' : 'Please enter a valid email address');
+      }
+      const domain = val.split('@')[1].toLowerCase();
+      if (BLOCKED.includes(domain)) {
+        return setField('email', 'invalid', currentLang === 'ja' ? '実在するメールアドレスをご入力ください' : 'Please use a real email address');
+      }
+      // Check for common typos in popular domains
+      const common = { 'gmial.com':'gmail.com','gmai.com':'gmail.com','gamil.com':'gmail.com',
+        'yahooo.com':'yahoo.com','hotmial.com':'hotmail.com','outlok.com':'outlook.com' };
+      if (common[domain]) {
+        return setField('email', 'invalid', (currentLang === 'ja' ? 'もしかして: ' : 'Did you mean: ') + val.split('@')[0] + '@' + common[domain] + ' ?');
+      }
+      setField('email', 'valid', currentLang === 'ja' ? 'メールアドレスを確認しました' : 'Email address looks valid');
+    }, delay);
+  }
+
+  function validateMsg() {
+    const v = document.getElementById('ph-msg').value.trim();
+    if (!v) return setField('msg', '', '');
+    if (v.length < 10) return setField('msg', 'invalid', currentLang === 'ja' ? '10文字以上でご記入ください' : 'Please write at least 10 characters');
+    setField('msg', 'valid', '');
+  }
+
+  function checkAll() {
+    const nameOk  = document.getElementById('ph-name').value.trim().length >= 2;
+    const msgOk   = document.getElementById('ph-msg').value.trim().length >= 10;
+    // Validate email value directly — don't wait for CSS class to catch up
+    const emailVal    = document.getElementById('inp-email').value.trim();
+    const emailDomain = emailVal.split('@')[1]?.toLowerCase() || '';
+    const emailOk = EMAIL_RE.test(emailVal)
+                    && !BLOCKED.includes(emailDomain)
+                    && !Object.keys({gmial:'',gmai:'',gamil:'',yahooo:'',hotmial:'',outlok:''})
+                        .some(k => emailDomain.startsWith(k));
+    const btn = document.getElementById('btn-send');
+    btn.disabled = !(nameOk && emailOk && msgOk);
+  }
+
+  document.getElementById('btn-send').addEventListener('click', async function(e) {
+    e.preventDefault();
+    // Final guard
+    if (!document.getElementById('fg-email').classList.contains('valid')) return;
+    const btn = this;
+    btn.classList.add('sending');
+    btn.disabled = true;
+    // Simulate send (replace with real endpoint)
+    await new Promise(r => setTimeout(r, 1800));
+    btn.classList.remove('sending');
+    btn.classList.add('success');
+    btn.querySelector('.btn-label').textContent = currentLang === 'ja' ? '送信しました ✓' : 'Message Sent ✓';
+    setTimeout(() => {
+      btn.classList.remove('success');
+      btn.querySelector('.btn-label').textContent = currentLang === 'ja' ? '送信する →' : 'Send Message →';
+      btn.disabled = false;
+      checkAll();
+    }, 3000);
+  });
+
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-ja][data-en]').forEach(el => {
+      if (el.tagName === 'H2' && el.dataset[lang].includes('<br>')) {
+        el.innerHTML = el.dataset[lang];
+      } else {
+        el.textContent = el.dataset[lang];
+      }
+    });
+    document.getElementById('hero-h1').innerHTML = heroContent[lang];
+    const p = placeholders[lang];
+    document.getElementById('ph-name').placeholder = p.name;
+    document.getElementById('ph-company').placeholder = p.company;
+    document.getElementById('ph-msg').placeholder = p.msg;
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', (lang === 'ja' && b.textContent === 'JP') || (lang === 'en' && b.textContent === 'EN'));
+    });
+    // Re-validate with new language messages
+    validateName(); validateEmail(true); validateMsg();
+  }
+
+  /* ═══════════════════════════════════════════════
+     INTERACTIVE WEBGL SHADER BACKGROUND
+     ═══════════════════════════════════════════════ */
+  (function initBG() {
+    const canvas = document.getElementById('bg-canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return; // fallback: body keeps its CSS background
+
+    // Canvas IS the background now
+    document.body.style.background = 'transparent';
+
+    /* ── Vertex shader: full-screen quad pass-through ── */
+    const VS = `attribute vec2 a_p; void main(){ gl_Position = vec4(a_p, 0., 1.); }`;
+
+    /* ── Fragment shader ── */
+    const FS = `
+precision highp float;
+uniform float uTime;
+uniform vec2  uRes;
+uniform vec2  uMouse;
+uniform vec4  uRipples[8];
+uniform float uLight;
+
+/* Simplex 2D noise — Ashima Arts */
+vec3 _m3(vec3 x){ return x - floor(x*(1./289.))*289.; }
+vec2 _m2(vec2 x){ return x - floor(x*(1./289.))*289.; }
+vec3 _pm(vec3 x){ return _m3(((x*34.)+1.)*x); }
+float snoise(vec2 v){
+  const vec4 C = vec4(.211324865,.366025404,-.577350269,.024390244);
+  vec2 i  = floor(v + dot(v, C.yy));
+  vec2 x0 = v - i + dot(i, C.xx);
+  vec2 i1 = (x0.x > x0.y) ? vec2(1.,0.) : vec2(0.,1.);
+  vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1;
+  i = _m2(i);
+  vec3 p = _pm(_pm(i.y + vec3(0., i1.y, 1.)) + i.x + vec3(0., i1.x, 1.));
+  vec3 m = max(.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.);
+  m *= m; m *= m;
+  vec3 xs = 2.*fract(p*C.www) - 1.;
+  vec3 h  = abs(xs) - .5;
+  vec3 ox = floor(xs + .5);
+  vec3 a0 = xs - ox;
+  m *= 1.79284291 - .85373472*(a0*a0 + h*h);
+  vec3 g;
+  g.x  = a0.x *x0.x  + h.x *x0.y;
+  g.yz = a0.yz*x12.xz + h.yz*x12.yw;
+  return 130.*dot(m, g);
+}
+float fbm(vec2 p){
+  float v=0., a=.5;
+  v+=a*snoise(p); p*=2.1; a*=.48;
+  v+=a*snoise(p); p*=2.1; a*=.48;
+  v+=a*snoise(p); p*=2.1; a*=.48;
+  v+=a*snoise(p);
+  return v;
+}
+
+/* Ripple helper — uses constant indices so GLSL ES 1.00 is happy */
+void rpl(vec2 p, vec4 r, float asp, inout float rv){
+  float age = uTime - r.z;
+  if (age < 0. || age > 2.8) return;
+  vec2  rp   = vec2(r.x*asp, r.y);
+  float d    = length(p - rp);
+  float rad  = age * .55;
+  float ring = sin((d - rad)*22. - .5) * exp(-age*1.8);
+  rv += ring * smoothstep(0.,.10,d) * smoothstep(0.,.12,age) * r.w;
+}
+
+void main(){
+  vec2  uv  = gl_FragCoord.xy / uRes;
+  float asp = uRes.x / uRes.y;
+  vec2  p   = vec2(uv.x*asp, uv.y);
+  float t   = uTime * .20;
+
+  /* Mouse warp — pulls the gradient field toward cursor */
+  vec2  m  = vec2(uMouse.x*asp, uMouse.y);
+  float md = length(p - m);
+  float ms = smoothstep(.55, .0, md);
+  p -= normalize(p - m + vec2(.0001)) * ms * .09;
+
+  /* Click ripples — expand from click origin, distort the field */
+  float ripV = 0.;
+  rpl(p, uRipples[0], asp, ripV);
+  rpl(p, uRipples[1], asp, ripV);
+  rpl(p, uRipples[2], asp, ripV);
+  rpl(p, uRipples[3], asp, ripV);
+  rpl(p, uRipples[4], asp, ripV);
+  rpl(p, uRipples[5], asp, ripV);
+  rpl(p, uRipples[6], asp, ripV);
+  rpl(p, uRipples[7], asp, ripV);
+  p += ripV * .045;
+
+  /* Five slowly drifting gradient poles */
+  vec2 pole1 = vec2((.22+sin(t*.73)*.20)*asp, .30+cos(t*.51)*.22);
+  vec2 pole2 = vec2((.78+cos(t*.58)*.16)*asp, .72+sin(t*.43)*.20);
+  vec2 pole3 = vec2((.50+sin(t*.44)*.28)*asp, .12+cos(t*.82)*.12);
+  vec2 pole4 = vec2((.12+cos(t*.52)*.18)*asp, .88+sin(t*.62)*.08);
+  vec2 pole5 = vec2((.88+sin(t*.36)*.14)*asp, .45+cos(t*.69)*.26);
+
+  float w1=1./(length(p-pole1)+.28), w2=1./(length(p-pole2)+.28);
+  float w3=1./(length(p-pole3)+.28), w4=1./(length(p-pole4)+.28);
+  float w5=1./(length(p-pole5)+.28);
+  float wT=w1+w2+w3+w4+w5;
+  float b1=w1/wT, b2=w2/wT, b3=w3/wT, b4=w4/wT, b5=w5/wT;
+
+  /* Dark theme palette */
+  vec3 d1=vec3(.027,.031,.059); /* deep navy     */
+  vec3 d2=vec3(.052,.011,.115); /* dark violet   */
+  vec3 d3=vec3(.008,.043,.102); /* midnight blue */
+  vec3 d4=vec3(.088,.014,.032); /* dark crimson  */
+  vec3 d5=vec3(.010,.018,.058); /* deep indigo   */
+
+  /* Light theme palette */
+  vec3 l1=vec3(.949,.949,.969); /* near white    */
+  vec3 l2=vec3(.902,.875,.980); /* soft lavender */
+  vec3 l3=vec3(.875,.925,.980); /* soft blue     */
+  vec3 l4=vec3(.980,.898,.910); /* soft rose     */
+  vec3 l5=vec3(.910,.949,.965); /* pale cyan     */
+
+  vec3 col = mix(
+    d1*b1 + d2*b2 + d3*b3 + d4*b4 + d5*b5,
+    l1*b1 + l2*b2 + l3*b3 + l4*b4 + l5*b5,
+    uLight
+  );
+
+  /* FBM noise overlay — organic texture */
+  col += fbm(p*1.6 + t*.12) * mix(.022, .007, uLight);
+
+  /* Mouse glow — accent color blooms near cursor */
+  float glow = ms * ms;
+  vec3 ac = mix(vec3(.424,.388,1.00), vec3(.560,.518,1.00), uLight);
+  col += glow * .13 * ac;
+
+  /* Ripple flash */
+  col += abs(ripV) * .07 * ac;
+
+  /* Vignette — darker at edges, deepens the field */
+  float vig = 1. - smoothstep(.28, .92, length(uv - vec2(.5)) * 1.8);
+  col = mix(col * mix(.12, .60, uLight), col, vig);
+
+  gl_FragColor = vec4(clamp(col, 0., 1.), 1.);
+}`;
+
+    /* ── Compile & link ── */
+    function mkShader(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.warn('Shader error:', gl.getShaderInfoLog(s));
+        gl.deleteShader(s); return null;
+      }
+      return s;
+    }
+    const vs = mkShader(gl.VERTEX_SHADER, VS);
+    const fs = mkShader(gl.FRAGMENT_SHADER, FS);
+    if (!vs || !fs) return;
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn('Link error:', gl.getProgramInfoLog(prog)); return;
+    }
+    gl.useProgram(prog);
+
+    /* Full-screen quad */
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER,
+      new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const pLoc = gl.getAttribLocation(prog, 'a_p');
+    gl.enableVertexAttribArray(pLoc);
+    gl.vertexAttribPointer(pLoc, 2, gl.FLOAT, false, 0, 0);
+
+    /* Uniform handles */
+    const uT  = gl.getUniformLocation(prog, 'uTime');
+    const uR  = gl.getUniformLocation(prog, 'uRes');
+    const uM  = gl.getUniformLocation(prog, 'uMouse');
+    const uL  = gl.getUniformLocation(prog, 'uLight');
+    const uRip = gl.getUniformLocation(prog, 'uRipples[0]'); // vec4fv sets all 8
+
+    /* State */
+    const MAX_R = 8;
+    const ripBuf = new Float32Array(MAX_R * 4); // [x,y,birthT,strength] * 8
+    for (let i = 0; i < MAX_R; i++) ripBuf[i*4+2] = -999; // inactive
+    let ripIdx = 0;
+    let mx = .5, my = .5, lightVal = 0, targetLight = 0;
+    const t0 = performance.now();
+
+    /* Resize */
+    function resize() {
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);
+      canvas.width  = innerWidth  * dpr;
+      canvas.height = innerHeight * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    resize();
+    window.addEventListener('resize', resize, {passive: true});
+
+    /* Mouse / touch tracking */
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX / innerWidth;
+      my = 1 - e.clientY / innerHeight; // flip Y for WebGL
+    });
+    document.addEventListener('touchmove', e => {
+      mx = e.touches[0].clientX / innerWidth;
+      my = 1 - e.touches[0].clientY / innerHeight;
+    }, {passive: true});
+
+    /* Click / tap ripples */
+    function addRipple(cx, cy) {
+      const now = (performance.now() - t0) / 1000;
+      const b = ripIdx * 4;
+      ripBuf[b]   = cx / innerWidth;
+      ripBuf[b+1] = 1 - cy / innerHeight;
+      ripBuf[b+2] = now;
+      ripBuf[b+3] = .6 + Math.random() * .8;
+      ripIdx = (ripIdx + 1) % MAX_R;
+    }
+    document.addEventListener('click',      e => addRipple(e.clientX, e.clientY));
+    document.addEventListener('touchstart', e => addRipple(
+      e.touches[0].clientX, e.touches[0].clientY), {passive: true});
+
+    /* Theme observer */
+    new MutationObserver(() => {
+      targetLight = document.documentElement.dataset.theme === 'light' ? 1 : 0;
+    }).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+
+    /* Render loop */
+    function render() {
+      const t = (performance.now() - t0) / 1000;
+      lightVal += (targetLight - lightVal) * .04; // smooth theme transition
+
+      gl.uniform1f(uT, t);
+      gl.uniform2f(uR, canvas.width, canvas.height);
+      gl.uniform2f(uM, mx, my);
+      gl.uniform1f(uL, lightVal);
+      gl.uniform4fv(uRip, ripBuf);
+
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      requestAnimationFrame(render);
+    }
+    render();
+  })();
+
+  /* ─── FAQ Accordion ─── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ─── PDPA Banner ─── */
+  (function() {
+    if (localStorage.getItem('softopia-pdpa') === '1') {
+      const el = document.getElementById('pdpa');
+      if (el) el.classList.add('gone');
+    }
+  })();
+  function pdpaAccept() {
+    localStorage.setItem('softopia-pdpa', '1');
+    document.getElementById('pdpa').classList.add('gone');
+  }
+  function pdpaDecline() {
+    document.getElementById('pdpa').classList.add('gone');
+  }
+
+  /* ─── Mobile Menu ─── */
+  let menuOpen = false;
+  function toggleMobileMenu() {
+    menuOpen = !menuOpen;
+    document.getElementById('mobile-menu').classList.toggle('open', menuOpen);
+    document.getElementById('nav-hamburger').classList.toggle('open', menuOpen);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    menuOpen = false;
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // Close drawer when clicking outside
+  document.getElementById('mobile-menu').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeMobileMenu();
+  });
+</script>
+</body>
+</html>
