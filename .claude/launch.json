@@ -8,12 +8,6 @@
       "port": 3000
     },
     {
-      "name": "stable-diffusion-webui",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["C:/Users/User/Desktop/Stable Diffusion/sd.webui/webui/launch.py"],
-      "port": 7860
-    },
-    {
       "name": "waterproofing-site",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "3001", "--directory", "C:/Users/User/Desktop/Claude code"],

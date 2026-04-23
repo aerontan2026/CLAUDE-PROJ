@@ -38,7 +38,17 @@
       "Bash(python3 -c ':*)",
       "mcp__Claude_in_Chrome__javascript_tool",
       "mcp__Claude_in_Chrome__get_page_text",
-      "Bash(not exist *)"
+      "Bash(not exist *)",
+      "Bash(unzip -l \"C:/Users/User/Downloads/skill-improvement.zip\")",
+      "Bash(mkdir -p \"/tmp/skill-upload\")",
+      "Bash(unzip -o \"C:/Users/User/Downloads/skill-improvement.zip\" -d \"/tmp/skill-upload\")",
+      "Bash(git clone *)",
+      "Bash(cp /tmp/skill-upload/*.skill \"/tmp/skill-repo/\")",
+      "Read(//tmp/**)",
+      "Bash(git -C \"C:\\\\Users\\\\User\\\\Desktop\\\\Claude code\" show a60175f --name-only)",
+      "Bash(git -C \"C:\\\\Users\\\\User\\\\Desktop\\\\Claude code\" remote -v)",
+      "Bash(git -C \"C:\\\\Users\\\\User\\\\Desktop\\\\Claude code\" log --oneline origin/main..HEAD)",
+      "Bash(git -C \"C:\\\\Users\\\\User\\\\Desktop\\\\Claude code\" log --oneline origin/master..HEAD)"
     ]
   }
 }
